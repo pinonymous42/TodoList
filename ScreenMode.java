@@ -1,4 +1,4 @@
-
+package test;
 
 public enum ScreenMode {
 	LOGIN,
@@ -6,4 +6,5 @@ public enum ScreenMode {
 	FORGOT_PASSWORD,
 	TO_DO_LIST,
 	ADD_LIST,
+	ARCHIVE_LIST,
 }
