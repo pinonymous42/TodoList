@@ -13,17 +13,24 @@ public class AddListPanel extends JPanel{
 	private JLabel		contentLabel_;
 	private JLabel		deadlineLabel_;
 	private JLabel		priorityLabel_;
+	private JLabel		shareLabel_;
 	private JLabel		err_;
 	
 	private JTextField	name_;
 	private JTextField	content_;
 	private JTextField	deadline_;
-	private JTextField	priority_;
+	private JTextField	share_;
 	
-	// private String		list_;
+	private int			priority_ = 0;
+	private	String		list_;
+	private	String[]	priorityList_ = {"1", "2", "3", "4", "5"};
 	
+	private JComboBox<String>	priorityBox_;
+
 	private JButton		cancelButton_;
 	private JButton		addButton_;
+	private	JRadioButton	notShareButon_, shareButton_;
+	private	ButtonGroup		shareGroup_;
 	
 	private MyButtonListener	myButtonListener_;
 
@@ -45,7 +52,7 @@ public class AddListPanel extends JPanel{
 		title_.setForeground(new Color(0, 0, 100));
 		title_.setHorizontalAlignment(SwingConstants.CENTER);
 		title_.setToolTipText("");
-		title_.setBounds(150, 60, 300, 40);
+		title_.setBounds(150, 20, 300, 40);
 		this.add(title_);
 		
 		err_ = new JLabel("error");
@@ -53,59 +60,89 @@ public class AddListPanel extends JPanel{
 		err_.setForeground(new Color(255, 0, 0));
 		err_.setHorizontalAlignment(SwingConstants.CENTER);
 		err_.setToolTipText("");
-		err_.setBounds(150, 240, 300, 20);
+		err_.setBounds(150, 270, 300, 20);
 		err_.setVisible(false);
 		this.add(err_);
 		
 		nameLabel_ = new JLabel("title");
 		nameLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
-		nameLabel_.setBounds(205, 110, 100, 10);
+		nameLabel_.setBounds(205, 80, 100, 10);
 		this.add(nameLabel_);
 		
 		contentLabel_ = new JLabel("content");
 		contentLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
-		contentLabel_.setBounds(205, 150, 100, 10);
+		contentLabel_.setBounds(205, 120, 100, 10);
 		this.add(contentLabel_);
 		
 		deadlineLabel_ = new JLabel("deadline");
 		deadlineLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
-		deadlineLabel_.setBounds(205, 190, 100, 10);
+		deadlineLabel_.setBounds(205, 160, 100, 10);
 		this.add(deadlineLabel_);
 		
 		priorityLabel_ = new JLabel("priority");
 		priorityLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
-		priorityLabel_.setBounds(205, 230, 100, 10);
+		priorityLabel_.setBounds(205, 200, 100, 10);
 		this.add(priorityLabel_);
+
+		shareLabel_ = new JLabel("share");
+		shareLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
+		shareLabel_.setBounds(205, 240, 100, 10);
+		this.add(shareLabel_);
 		
 		
 
 		name_ = new JTextField();
 		name_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		name_.setBounds(200, 120, 200, 20);
+		name_.setBounds(200, 90, 200, 20);
 		name_.setHorizontalAlignment(SwingConstants.LEFT);
 		name_.setColumns(10);
 		this.add(name_);
 		
 		content_ = new JTextField();
 		content_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		content_.setBounds(200, 160, 200, 20);
+		content_.setBounds(200, 130, 200, 20);
 		content_.setHorizontalAlignment(SwingConstants.LEFT);
 		content_.setColumns(10);
 		this.add(content_);
 		
 		deadline_ = new JTextField();
+		deadline_.setText("2022/9/12");
+		deadline_.setForeground(Color.LIGHT_GRAY);
 		deadline_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		deadline_.setBounds(200, 200, 200, 20);
+		deadline_.setBounds(200, 170, 200, 20);
 		deadline_.setHorizontalAlignment(SwingConstants.LEFT);
 		deadline_.setColumns(10);
+		deadline_.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent e){
+				deadline_.setText("");
+				deadline_.setForeground(Color.black);
+		    }
+		    @Override
+		    public void focusLost(FocusEvent e){
+		        if (deadline_.getText().length() == 0){
+		        	deadline_.setText("2022/9/12");
+		        	deadline_.setForeground(Color.LIGHT_GRAY);
+		        }
+		    }
+		});
 		this.add(deadline_);
 		
-		priority_ = new JTextField();
-		priority_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		priority_.setBounds(200, 240, 200, 20);
-		priority_.setHorizontalAlignment(SwingConstants.LEFT);
-		priority_.setColumns(10);
-		this.add(priority_);
+		priorityBox_ = new JComboBox<>(priorityList_);
+		priorityBox_.setBounds(200, 210, 200, 20);
+		this.add(priorityBox_);
+		
+		notShareButon_ = new JRadioButton("No", true);
+		notShareButon_.setBounds(200, 250, 100, 20);
+		this.add(notShareButon_);
+		
+		shareButton_ = new JRadioButton("Yes");
+		shareButton_.setBounds(300, 250, 100, 20);
+		this.add(shareButton_);
+		
+		shareGroup_ = new ButtonGroup();
+		shareGroup_.add(notShareButon_);
+		shareGroup_.add(shareButton_);
 		
 		
 		
@@ -113,14 +150,14 @@ public class AddListPanel extends JPanel{
 		cancelButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		cancelButton_.setBorderPainted(true);
 		cancelButton_.setBackground(new Color(0, 255, 0));
-		cancelButton_.setBounds(200, 300, 100, 30);
+		cancelButton_.setBounds(200, 330, 100, 30);
 		this.add(cancelButton_);
 		
 		addButton_ = new JButton("Add");
 		addButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		addButton_.setForeground(new Color(0, 255, 0));
 		addButton_.setBorderPainted(true);
-		addButton_.setBounds(300, 300, 100, 30);
+		addButton_.setBounds(300, 330, 100, 30);
 		this.add(addButton_);
 
 		try
@@ -138,7 +175,8 @@ public class AddListPanel extends JPanel{
 		myButtonListener_ = new MyButtonListener();
 		cancelButton_.addActionListener(myButtonListener_);
 		addButton_.addActionListener(myButtonListener_);
-		
+		notShareButon_.addActionListener(myButtonListener_);
+		shareButton_.addActionListener(myButtonListener_);
 		
 	}
 	
@@ -169,8 +207,8 @@ public class AddListPanel extends JPanel{
 					created = null;//後で現在時刻を代入
 					modified = null;
 					deadline = deadline_.getText();
-					priority = priority_.getText();
-					if (title.equals("") == true && contents.equals("") == true && deadline.equals("") == true && priority.equals("") == true) {
+					priority = (String)priorityBox_.getSelectedItem();
+					if (title.equals("") == true) {
 						err_.setVisible(true);
 					}
 					else {
