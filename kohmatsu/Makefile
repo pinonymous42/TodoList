@@ -4,7 +4,7 @@ SRCS		:=	Main.java CreateAccountPanel.java ForgotPasswordPanel.java LoginPanel.j
 RM			:=	rm -rf
 
 all: $(SRCS)
-	javac $(SRCS) && java -classpath ".:./sqlite-jdbc-3.42.0.0.jar" $(basename $(SRCS))
+	javac -Xlint:deprecation $(SRCS) && java -classpath ".:./sqlite-jdbc-3.42.0.0.jar" $(basename $(SRCS))
 	$(RM) *.class
 
 fclean: 

@@ -17,7 +17,7 @@ public class LoginPanel extends JPanel {
 	
 	private JTextField	userNameField_;
 	private JTextField	emailField_;
-	private JTextField	passwordField_;
+	private JPasswordField	passwordField_;
 	
 	private JButton		signinButton_;
 	private JButton		createAccountButton_;
@@ -36,9 +36,9 @@ public class LoginPanel extends JPanel {
 	
 	public void prepareComponents() {
 		
-		userIDLabel_ = new JLabel("username");
+		userIDLabel_ = new JLabel("userID");
 		userIDLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
-		userIDLabel_.setBounds(200, 110, 100, 10);
+		userIDLabel_.setBounds(200, 150, 100, 10);
 		this.add(userIDLabel_);
 		
 		passwordLabel_ = new JLabel("password");
@@ -64,19 +64,17 @@ public class LoginPanel extends JPanel {
 
 		userNameField_ = new JTextField();
 		userNameField_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		userNameField_.setBounds(200, 120, 200, 20);
+		userNameField_.setBounds(200, 160, 200, 20);
 		userNameField_.setHorizontalAlignment(SwingConstants.LEFT);
 		userNameField_.setColumns(10);
 		this.add(userNameField_);
 		
-		passwordField_ = new JTextField();
+		passwordField_ = new JPasswordField();
 		passwordField_.setHorizontalAlignment(SwingConstants.LEFT);
 		passwordField_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		passwordField_.setColumns(10);
 		passwordField_.setBounds(200, 200, 200, 20);
 		this.add(passwordField_);
-		
-		
 		
 		signinButton_ = new JButton("Sign in");
 		signinButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
@@ -150,12 +148,12 @@ public class LoginPanel extends JPanel {
 		public void actionPerformed(ActionEvent event){
 			try
 			{
-				String	userID, password, username;
+				String	userID;
 				if (event.getSource() == signinButton_) {
-					username = userNameField_.getText();
-					password = passwordField_.getText();
-					if ((userID = userCheck(username, password)) == null) {
+					if ((userID = userCheck(userNameField_.getText(), String.valueOf(passwordField_.getPassword()))) == null) {
 						loginErrLabel_.setVisible(true);
+						userNameField_.setText("");
+						passwordField_.setText("");
 					}
 					else {
 						toDoListPanel_ = new ToDoListPanel();

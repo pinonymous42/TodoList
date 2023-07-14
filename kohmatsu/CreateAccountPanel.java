@@ -17,11 +17,13 @@ public class CreateAccountPanel extends JPanel{
 	private JLabel		userNameLabel_;
 	private JLabel		emailLabel_;
 	private JLabel		passwordLabel_;
-	private JLabel		err_;
+	private	JLabel		confirmLabel_;
+	private JLabel		errLabel_;
 	
 	private JTextField	usernameField_;
 	private JTextField	emailField_;
-	private JTextField	passwordField_;
+	private JPasswordField	passwordField_;
+	private	JPasswordField	confirmField_;
 	
 	private JButton		createAccountButton_;
 	private JButton		exitButton_;
@@ -44,17 +46,8 @@ public class CreateAccountPanel extends JPanel{
 		title_.setForeground(new Color(0, 255, 0));
 		title_.setHorizontalAlignment(SwingConstants.CENTER);
 		title_.setToolTipText("");
-		title_.setBounds(150, 60, 300, 40);
+		title_.setBounds(150, 40, 300, 40);
 		this.add(title_);
-
-		err_ = new JLabel("error");
-		err_.setFont(new Font("Dialog", Font.BOLD, 13));
-		err_.setForeground(new Color(255, 0, 0));
-		err_.setHorizontalAlignment(SwingConstants.CENTER);
-		err_.setToolTipText("");
-		err_.setBounds(150, 240, 300, 20);
-		err_.setVisible(false);
-		this.add(err_);
 		
 		userNameLabel_ = new JLabel("user_name");
 		userNameLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
@@ -71,6 +64,17 @@ public class CreateAccountPanel extends JPanel{
 		passwordLabel_.setBounds(205, 190, 100, 10);
 		this.add(passwordLabel_);
 		
+		confirmLabel_ = new JLabel("confirm password");
+		confirmLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
+		confirmLabel_.setBounds(205, 230, 100, 10);
+		this.add(confirmLabel_);
+
+		errLabel_ = new JLabel("failed");
+		errLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
+		errLabel_.setForeground(Color.red);
+		errLabel_.setBounds(200, 270, 100, 10);
+		errLabel_.setVisible(false);
+		this.add(errLabel_);
 		
 
 		usernameField_ = new JTextField();
@@ -87,20 +91,25 @@ public class CreateAccountPanel extends JPanel{
 		emailField_.setColumns(10);
 		this.add(emailField_);
 		
-		passwordField_ = new JTextField();
+		passwordField_ = new JPasswordField();
 		passwordField_.setHorizontalAlignment(SwingConstants.LEFT);
 		passwordField_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		passwordField_.setColumns(10);
 		passwordField_.setBounds(200, 200, 200, 20);
 		this.add(passwordField_);
-		
 
+		confirmField_ = new JPasswordField();
+		confirmField_.setHorizontalAlignment(SwingConstants.LEFT);
+		confirmField_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		confirmField_.setColumns(10);
+		confirmField_.setBounds(200, 240, 200, 20);
+		this.add(confirmField_);
 		
 		createAccountButton_ = new JButton("Create an account");
 		createAccountButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		createAccountButton_.setForeground(new Color(0, 255, 0));
 		createAccountButton_.setBorderPainted(false);
-		createAccountButton_.setBounds(220, 250, 160, 30);
+		createAccountButton_.setBounds(220, 300, 160, 30);
 		this.add(createAccountButton_);
 		
 		exitButton_ = new JButton("Exit");
@@ -146,27 +155,33 @@ public class CreateAccountPanel extends JPanel{
 	
 	private class MyButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent event) {
-			String	username, email, password, ID;
+			String	username, email, password, ID, confirm;
 			try
 			{
 				if (event.getSource() == createAccountButton_) {
-					if (usernameField_.getText().compareTo("") == 0 || emailField_.getText().compareTo("") == 0 ||  passwordField_.getText().compareTo("") == 0)
-						err_.setVisible(true);
+					username = usernameField_.getText();
+					email = emailField_.getText();
+					password = new String(passwordField_.getPassword());
+					confirm = new String(confirmField_.getPassword());
+					errLabel_.setVisible(true);
+					usernameField_.setText("");
+					emailField_.setText("");
+					passwordField_.setText("");
+					confirmField_.setText("");
+					if (username.equals("") == true || email.equals("") == true ||  password.equals("") == true || confirm.equals("") == true || password.equals(confirm) == false)
+						errLabel_.setVisible(true);
 					else
 					{
-						username = usernameField_.getText();
-						email = emailField_.getText();
-						password = passwordField_.getText();
 						ID = createNewAccount(username, email, password);
 						toDoListPanel_ = new ToDoListPanel();
 						toDoListPanel_.prepareComponents(ID);
-						err_.setVisible(false);
+						errLabel_.setVisible(false);
 						Main.mainWindow_.add(toDoListPanel_, "toDoListPanel");
 						Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.TO_DO_LIST, toDoListPanel_);
 					}
 				}
 				if (event.getSource() == exitButton_) {
-					err_.setVisible(false);
+					errLabel_.setVisible(false);
 					loginPanel_ = new LoginPanel();
 					loginPanel_.prepareComponents();
 					Main.mainWindow_.add(loginPanel_, "loginPanel");

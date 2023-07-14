@@ -84,8 +84,6 @@ public class LoginPanel extends JPanel {
 		passwordField_.setBounds(200, 200, 200, 20);
 		this.add(passwordField_);
 		
-		
-		
 		signinButton_ = new JButton("Sign in");
 		signinButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		signinButton_.setBorderPainted(false);

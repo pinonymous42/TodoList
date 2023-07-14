@@ -14,14 +14,17 @@ public class ToDoListPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 
 	private int TodoSize_;/*TodoList size*/
+	private	int	editCount_ = 0;//編集は一個ずつしかできない、何個リストが選択されているか確認用
 
 	private JLabel	title;
+	private	JLabel	err;
 
 	private JButton		addButton_;
 	private JButton		removeButton_;
 	private JButton		archiveButton_;
+	private	JButton		goToArchiveButton_;
 	private JButton		exitButton_;
-	private JButton		goToArchive_;
+	private JButton		editButton_;
 
 	private AddListPanel	addListPanel_;
 	private LoginPanel loginPanel_;
@@ -51,6 +54,14 @@ public class ToDoListPanel extends JPanel{
 		title.setToolTipText("");
 		title.setBounds(150, 20, 300, 40);
 		topPanel.add(title);
+
+		err = new JLabel("choose one list to edit");
+		err.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		err.setForeground(Color.red);
+		err.setHorizontalAlignment(SwingConstants.CENTER);
+		err.setBounds(150, 50, 300, 20);
+		err.setVisible(false);
+		topPanel.add(err);
 		
 		exitButton_ = new JButton("Exit");
 		exitButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
@@ -59,12 +70,12 @@ public class ToDoListPanel extends JPanel{
 		exitButton_.setBounds(10, 10, 100, 30);
 		topPanel.add(exitButton_);
 
-		goToArchive_ = new JButton("<html><u>go to Archive List</u><html>");
-		goToArchive_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		goToArchive_.setForeground(Color.red);
-		goToArchive_.setBorderPainted(false);
-		goToArchive_.setBounds(400, 10, 200, 30);
-		topPanel.add(goToArchive_);
+		goToArchiveButton_ = new JButton("<html><u>go to Archive List</u><html>");
+		goToArchiveButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		goToArchiveButton_.setForeground(Color.red);
+		goToArchiveButton_.setBorderPainted(false);
+		goToArchiveButton_.setBounds(400, 10, 200, 30);
+		topPanel.add(goToArchiveButton_);
 
 		this.add(topPanel, BorderLayout.NORTH);
 		
@@ -121,15 +132,22 @@ public class ToDoListPanel extends JPanel{
 		archiveButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		archiveButton_.setBorderPainted(true);
 		archiveButton_.setForeground(Color.black);
-		archiveButton_.setBounds(250, 10, 100, 30);
+		archiveButton_.setBounds(200, 10, 100, 30);
 		bottomPanel.add(archiveButton_);
 		
 		addButton_ = new JButton("add");
 		addButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		addButton_.setBorderPainted(true);
 		addButton_.setForeground(Color.black);
-		addButton_.setBounds(400, 10, 100, 30);
+		addButton_.setBounds(300, 10, 100, 30);
 		bottomPanel.add(addButton_);
+		
+		editButton_ = new JButton("edit");
+		editButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		editButton_.setBorderPainted(true);
+		editButton_.setForeground(Color.black);
+		editButton_.setBounds(400, 10, 100, 30);
+		bottomPanel.add(editButton_);
 		
 		this.add(bottomPanel, BorderLayout.SOUTH);
 		
@@ -139,7 +157,8 @@ public class ToDoListPanel extends JPanel{
 		removeButton_.addActionListener(myButtonListener_);
 		archiveButton_.addActionListener(myButtonListener_);
 		addButton_.addActionListener(myButtonListener_);
-		goToArchive_.addActionListener(myButtonListener_);
+		goToArchiveButton_.addActionListener(myButtonListener_);
+		editButton_.addActionListener(myButtonListener_);
 	}
 	
 	private class MyButtonListener implements ActionListener{
@@ -187,11 +206,32 @@ public class ToDoListPanel extends JPanel{
 				Main.mainWindow_.add(addListPanel_, "addListPanel");
 				Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.ADD_LIST, addListPanel_);
 			}
-			if (event.getSource() == goToArchive_) {
+			if (event.getSource() == goToArchiveButton_) {
 				archiveListPanel_ = new ArchiveListPanel();
 				archiveListPanel_.prepareComponents(member_.getID());
 				Main.mainWindow_.add(archiveListPanel_, "archiveListPanel");
 				Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.ARCHIVE_LIST, archiveListPanel_);
+			}
+			if (event.getSource() == editButton_) {
+				editCount_ = 0;
+				for (int i = 0; i < TodoSize_; i++) {
+					if (box_[i].isSelected()) {
+						editCount_++;
+						// System.out.println(box_[i].getText() + " is edit");
+					}
+				}
+				// System.out.println(editCount_);
+				if (editCount_ != 1) {
+					err.setVisible(true);
+				}
+				else {
+					err.setVisible(false);
+					member_.writeToDB();
+					addListPanel_ = new AddListPanel();
+					addListPanel_.prepareComponents(member_.getID());
+					Main.mainWindow_.add(addListPanel_, "addListPanel");
+					Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.ADD_LIST, addListPanel_);
+				}
 			}
 		}
 		catch (ClassNotFoundException e)
