@@ -29,11 +29,14 @@ public class ToDoListPanel extends JPanel{
 	private AddListPanel	addListPanel_;
 	private LoginPanel loginPanel_;
 	private ArchiveListPanel archiveListPanel_;
+	private ToDoListPanel toDoListPanel_;
 	
 	private MyButtonListener	myButtonListener_;
 
 	private Member member_;
 
+	private JTable		table_;
+	String[] columns = {"title", "deadline", "priority"};
 	private JCheckBox	box_[];
 
 	ToDoListPanel(){
@@ -99,18 +102,28 @@ public class ToDoListPanel extends JPanel{
 		else
 			middlePanel.setPreferredSize(new Dimension(400, 30*TodoSize_));
 		middlePanel.setLayout(null);
+
+		Object[][] data_ = new Object[member_.getTodo().size()][3];
 		box_ = new JCheckBox[TodoSize_];
 		int count = 0;
 		// System.out.println(member_.getTodoCount());
 		for (int i = 0; i < member_.getTodo().size(); i++) {
 			if (member_.getTodo().get(i).getArchive() == 0)
 			{
-				box_[count] = new JCheckBox(member_.getTodo().get(i).getTitle());
-				box_[count].setBounds(100, 30*count, 400, 30);
+				box_[count] = new JCheckBox(String.valueOf(member_.getTodo().get(i).getIndex()));
+				box_[count].setBounds(50, 10+30*count, 400, 30);
 				middlePanel.add(box_[count]);
+				box_[count].setForeground(new Color(238, 238, 238));
+				data_[count][0] = member_.getTodo().get(i).getTitle();
+				data_[count][1] = member_.getTodo().get(i).getDeadline();
+				data_[count][2] = member_.getTodo().get(i).getPriority();
 				count++;
 			}
 		}
+		table_ = new JTable(data_, columns);
+		table_.setRowHeight(30);
+		table_.setBounds(100, 10, 400, 30*count);
+		middlePanel.add(table_);
 		JScrollPane scrollPane = new JScrollPane(middlePanel);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setPreferredSize(new Dimension(600, 280));
@@ -175,30 +188,36 @@ public class ToDoListPanel extends JPanel{
 			if (event.getSource() == removeButton_) {
 				for (int i = 0; i < TodoSize_; i++) {
 					if (box_[i].isSelected()) {
-						member_.removeTodo(box_[i].getText());
-						member_.setRemoveList(box_[i].getText());
+						member_.removeTodo(Integer.valueOf(box_[i].getText()));
+						member_.setRemoveList(Integer.valueOf(box_[i].getText()));
 						box_[i].setVisible(false);
 					}					
 				}
 				member_.writeToDB();
-				Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.TO_DO_LIST, ToDoListPanel.this);
+				toDoListPanel_ = new ToDoListPanel();
+				toDoListPanel_.prepareComponents(member_.getID());
+				Main.mainWindow_.add(toDoListPanel_, "toDoListPanel");
+				Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.TO_DO_LIST, toDoListPanel_);
 			}
 			if (event.getSource() == archiveButton_) {
+				System.out.println(TodoSize_);
 				for (int i = 0; i < TodoSize_; i++) {
 					if (box_[i].isSelected()) {
+						int	id = Integer.valueOf(box_[i].getText());
+						member_.setEditList(id);
 						for (int j = 0; j < member_.getTodo().size(); j++)
 						{
-							if (member_.getTodo().get(j).getTitle().compareTo(box_[i].getText()) == 0)
-							{
-								member_.setEditList(member_.getTodo().get(j).getIndex());
+							if (member_.getTodo().get(j).getIndex() == id)
 								member_.getTodo().get(j).setArchive(1);
-							}
 						}
 						box_[i].setVisible(false);
 					}
 				}
 				member_.writeToDB();
-				Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.TO_DO_LIST, ToDoListPanel.this);
+				toDoListPanel_ = new ToDoListPanel();
+				toDoListPanel_.prepareComponents(member_.getID());
+				Main.mainWindow_.add(toDoListPanel_, "toDoListPanel");
+				Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.TO_DO_LIST, toDoListPanel_);
 			}
 			if (event.getSource() == addButton_) {
 				addListPanel_ = new AddListPanel();
@@ -213,9 +232,11 @@ public class ToDoListPanel extends JPanel{
 				Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.ARCHIVE_LIST, archiveListPanel_);
 			}
 			if (event.getSource() == editButton_) {
+				int	id = 0;
 				editCount_ = 0;
 				for (int i = 0; i < TodoSize_; i++) {
 					if (box_[i].isSelected()) {
+						id = Integer.valueOf(box_[i].getText());
 						editCount_++;
 						// System.out.println(box_[i].getText() + " is edit");
 					}
@@ -228,7 +249,7 @@ public class ToDoListPanel extends JPanel{
 					err.setVisible(false);
 					member_.writeToDB();
 					addListPanel_ = new AddListPanel();
-					addListPanel_.prepareComponents(member_.getID());
+					addListPanel_.prepareComponents(id, member_.getID());
 					Main.mainWindow_.add(addListPanel_, "addListPanel");
 					Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.ADD_LIST, addListPanel_);
 				}

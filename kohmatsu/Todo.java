@@ -6,6 +6,8 @@ public class Todo {
     private String modified_;
     private String deadline_;
     private String priority_;
+    private String createdBy_;
+    private String editedBy_;
     private int archive_;
 
     Todo()
@@ -17,10 +19,12 @@ public class Todo {
         this.modified_ = null;
         this.deadline_ = null;
         this.priority_ = null;
+        this.createdBy_ = null;
+        this.editedBy_ = null;
         this.archive_ = 0;
     }
 
-    Todo(int index, String title, String contents, String created, String modified, String deadline, String priority, int archive)
+    Todo(int index, String title, String contents, String created, String modified, String deadline, String priority, String createdBy, String editedBy, int archive)
     {
         this.index_ = index;
         this.title_ = title;
@@ -29,6 +33,8 @@ public class Todo {
         this.modified_ = modified;
         this.deadline_ = deadline;
         this.priority_ = priority;
+        this.createdBy_ = createdBy;
+        this.editedBy_ = editedBy;
         this.archive_ = archive;
     }
 
@@ -65,6 +71,16 @@ public class Todo {
     public String getPriority()
     {
         return (priority_);
+    }
+
+    public String getCreatedBy()
+    {
+        return (createdBy_);
+    }
+
+    public String getEditedBy()
+    {
+        return (editedBy_);
     }
 
     public int getArchive()
@@ -105,6 +121,16 @@ public class Todo {
     public void setPriority(String priority)
     {
         this.priority_ = priority;
+    }
+
+    public void setCreatedBy(String createdBy)
+    {
+        this.createdBy_ = createdBy;
+    }
+
+    public void setEditedBy(String editedBy)
+    {
+        this.editedBy_ = editedBy;
     }
 
     public void setArchive(int archive)

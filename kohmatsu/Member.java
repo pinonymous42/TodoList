@@ -15,7 +15,7 @@ public class Member {
     private String password_;
     private int todoCount_ = 0;/*size of todolist*/
     private int addCount_ = 0;/*count the number of new adding to todolist*/
-    private ArrayList<String> removeList_ = new ArrayList<String>();
+    private ArrayList<Integer> removeList_ = new ArrayList<Integer>();
     private ArrayList<Integer> editList_ = new ArrayList<Integer>();
     private int maxIndex_ = 0;
 
@@ -39,9 +39,9 @@ public class Member {
             this.ID_ = rs.getString(3);
             this.email_ = rs.getString(4);
             this.password_ = rs.getString(5);
-            rs = statement.executeQuery("SELECT t.id, t.title, t.contents, t.created, t.modified, t.deadline, t.priority, t.archive FROM Todo t, Rights r WHERE r.todo=t.id and r.member=" + rs.getString(1));
+            rs = statement.executeQuery("SELECT t.id, t.title, t.contents, t.created, t.modified, t.deadline, t.priority, t.createdby, t.editedby, t.archive FROM Todo t, Rights r WHERE r.todo=t.id and r.member=" + rs.getString(1));
             while (rs.next())
-                setTodo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8));
+                setTodo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getInt(10));
             rs = statement.executeQuery("SELECT * FROM Todo");
             while (rs.next())
             {
@@ -63,24 +63,24 @@ public class Member {
         Class.forName("org.sqlite.JDBC");
         Connection connection = null;
         Statement statement = null;
-        ResultSet rs = null;
+        // ResultSet rs = null;
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:./test.db");
             statement = connection.createStatement();
             for (int i = 0; i < removeList_.size(); i++)
             {
-                int index = 0;
-                rs = statement.executeQuery("SELECT * FROM Todo");
-                while (rs.next())
-                {
-                    if (rs.getString(2).compareTo(removeList_.get(i)) == 0)
-                    {
-                        index = Integer.valueOf(rs.getString(1));
-                        break ;
-                    }
-                }
-                statement.executeUpdate("DELETE FROM Todo WHERE id=" + index);
-                rs.close();
+                // int index = 0;
+                // rs = statement.executeQuery("SELECT * FROM Todo");
+                // while (rs.next())
+                // {
+                //     if (rs.getString(2).compareTo(removeList_.get(i)) == 0)
+                //     {
+                //         index = Integer.valueOf(rs.getString(1));
+                //         break ;
+                //     }
+                // }
+                statement.executeUpdate("DELETE FROM Todo WHERE id=" + removeList_.get(i));
+                // rs.close();
             }
             statement.executeUpdate("DELETE FROM Rights WHERE member=" + this.index_);
             for (int i = 0; i < editList_.size(); i++)
@@ -90,9 +90,9 @@ public class Member {
                 Todo tmp = this.todo_.get(i);
                 statement.executeUpdate("INSERT INTO Rights VALUES(" + tmp.getIndex() + ", " + this.index_ + ")");
                 if (i >= todo_.size() - addCount_)
-                    statement.executeUpdate("INSERT INTO Todo VALUES(" + tmp.getIndex() + ", '" + tmp.getTitle() + "', '" + tmp.getContents() + "', '" + tmp.getCreated() + "', '" + tmp.getModified() + "', '" + tmp.getDeadline() + "', '" + tmp.getPriority() + "', " + tmp.getArchive() + ")");
+                    statement.executeUpdate("INSERT INTO Todo VALUES(" + tmp.getIndex() + ", '" + tmp.getTitle() + "', '" + tmp.getContents() + "', '" + tmp.getCreated() + "', '" + tmp.getModified() + "', '" + tmp.getDeadline() + "', '" + tmp.getPriority() + "', '" + tmp.getCreated() + "', '" + tmp.getEditedBy() + "', " + tmp.getArchive() + ")");
                 if (editList_.contains(tmp.getIndex()) == true)
-                    statement.executeUpdate("INSERT INTO Todo VALUES(" + tmp.getIndex() + ", '" + tmp.getTitle() + "', '" + tmp.getContents() + "', '" + tmp.getCreated() + "', '" + tmp.getModified() + "', '" + tmp.getDeadline() + "', '" + tmp.getPriority() + "', " + tmp.getArchive() + ")");
+                    statement.executeUpdate("INSERT INTO Todo VALUES(" + tmp.getIndex() + ", '" + tmp.getTitle() + "', '" + tmp.getContents() + "', '" + tmp.getCreated() + "', '" + tmp.getModified() + "', '" + tmp.getDeadline() + "', '" + tmp.getPriority() + "', '" + tmp.getCreated() + "', '" + tmp.getEditedBy() + "', " + tmp.getArchive() + ")");
             }
         } catch(SQLException e) {
             System.err.println(e.getMessage());
@@ -102,12 +102,12 @@ public class Member {
 		}
     }
 
-    public void removeTodo(String target)
+    public void removeTodo(int target)
     {
         int size = todo_.size();
         for (int i = 0; i < size; i++)
         {
-            if (todo_.get(i).getTitle().compareTo(target) == 0)
+            if (todo_.get(i).getIndex() == target)
             {
                 todo_.remove(i);
                 return ;
@@ -147,7 +147,7 @@ public class Member {
         return (editList_);
     }
 
-    public ArrayList<String> getRemoveList()
+    public ArrayList<Integer> getRemoveList()
     {
         return (removeList_);
     }
@@ -187,9 +187,9 @@ public class Member {
         return (addCount_);
     }
 
-    public void setTodo(int index, String title, String contents, String created, String modified, String deadline, String priority, int archive)
+    public void setTodo(int index, String title, String contents, String created, String modified, String deadline, String priority, String createdBy, String editedBy, int archive)
     {
-        this.todo_.add(new Todo(index, title, contents, created, modified, deadline, priority, archive));
+        this.todo_.add(new Todo(index, title, contents, created, modified, deadline, priority, createdBy, editedBy, archive));
     }
 
     public void addTodo(Todo todo)
@@ -227,7 +227,7 @@ public class Member {
         this.addCount_ = addCount;
     }
 
-    public void setRemoveList(String title)
+    public void setRemoveList(int title)
     {
         this.removeList_.add(title);
     }
