@@ -39,9 +39,9 @@ public class Member {
             this.ID_ = rs.getString(3);
             this.email_ = rs.getString(4);
             this.password_ = rs.getString(5);
-            rs = statement.executeQuery("SELECT t.id, t.title, t.contents, t.created, t.modified, t.deadline, t.priority, t.archive FROM Todo t, Rights r WHERE r.todo=t.id and r.member=" + rs.getString(1));
+            rs = statement.executeQuery("SELECT t.id, t.title, t.contents, t.created, t.modified, t.deadline, t.priority, t.createdby, t.editedby, t.archive FROM Todo t, Rights r WHERE r.todo=t.id and r.member=" + rs.getString(1));
             while (rs.next())
-                setTodo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8));
+                setTodo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getInt(10));
             rs = statement.executeQuery("SELECT * FROM Todo");
             while (rs.next())
             {
@@ -90,9 +90,9 @@ public class Member {
                 Todo tmp = this.todo_.get(i);
                 statement.executeUpdate("INSERT INTO Rights VALUES(" + tmp.getIndex() + ", " + this.index_ + ")");
                 if (i >= todo_.size() - addCount_)
-                    statement.executeUpdate("INSERT INTO Todo VALUES(" + tmp.getIndex() + ", '" + tmp.getTitle() + "', '" + tmp.getContents() + "', '" + tmp.getCreated() + "', '" + tmp.getModified() + "', '" + tmp.getDeadline() + "', '" + tmp.getPriority() + "', " + tmp.getArchive() + ")");
+                    statement.executeUpdate("INSERT INTO Todo VALUES(" + tmp.getIndex() + ", '" + tmp.getTitle() + "', '" + tmp.getContents() + "', '" + tmp.getCreated() + "', '" + tmp.getModified() + "', '" + tmp.getDeadline() + "', '" + tmp.getPriority() + "', '" + tmp.getCreated() + "', '" + tmp.getEditedBy() + "', " + tmp.getArchive() + ")");
                 if (editList_.contains(tmp.getIndex()) == true)
-                    statement.executeUpdate("INSERT INTO Todo VALUES(" + tmp.getIndex() + ", '" + tmp.getTitle() + "', '" + tmp.getContents() + "', '" + tmp.getCreated() + "', '" + tmp.getModified() + "', '" + tmp.getDeadline() + "', '" + tmp.getPriority() + "', " + tmp.getArchive() + ")");
+                    statement.executeUpdate("INSERT INTO Todo VALUES(" + tmp.getIndex() + ", '" + tmp.getTitle() + "', '" + tmp.getContents() + "', '" + tmp.getCreated() + "', '" + tmp.getModified() + "', '" + tmp.getDeadline() + "', '" + tmp.getPriority() + "', '" + tmp.getCreated() + "', '" + tmp.getEditedBy() + "', " + tmp.getArchive() + ")");
             }
         } catch(SQLException e) {
             System.err.println(e.getMessage());
@@ -187,9 +187,9 @@ public class Member {
         return (addCount_);
     }
 
-    public void setTodo(int index, String title, String contents, String created, String modified, String deadline, String priority, int archive)
+    public void setTodo(int index, String title, String contents, String created, String modified, String deadline, String priority, String createdBy, String editedBy, int archive)
     {
-        this.todo_.add(new Todo(index, title, contents, created, modified, deadline, priority, archive));
+        this.todo_.add(new Todo(index, title, contents, created, modified, deadline, priority, createdBy, editedBy, archive));
     }
 
     public void addTodo(Todo todo)

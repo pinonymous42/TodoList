@@ -1,9 +1,11 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
+import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class AddListPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
@@ -20,12 +22,18 @@ public class AddListPanel extends JPanel{
 	private JTextField	content_;
 	private JTextField	deadline_;
 	private JTextField	share_;
+
+	SpinnerDateModel	model;
+	JSpinner 			spinner;
 	
 	private int			priority_ = 0;
 	private	String		list_;
 	private int			todoIndex_;
+	private String[]	year_ = {"2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"};
+	private String[]	month_ = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
+	private	String[]	date_;
 	private	String[]	priorityList_ = {"1", "2", "3", "4", "5"};
-	
+
 	private JComboBox<String>	priorityBox_;
 
 	private JButton		cancelButton_;
@@ -39,6 +47,7 @@ public class AddListPanel extends JPanel{
 	private Member member_;
 
 	private ToDoListPanel toDoListPanel_;
+	private	ShareListPanel	shareListPanel;
 	
 	AddListPanel(){
 		this.setLayout(null);
@@ -103,29 +112,16 @@ public class AddListPanel extends JPanel{
 		content_.setHorizontalAlignment(SwingConstants.LEFT);
 		content_.setColumns(10);
 		this.add(content_);
-		
-		deadline_ = new JTextField();
-		deadline_.setText("2022/9/12");
-		deadline_.setForeground(Color.LIGHT_GRAY);
-		deadline_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		deadline_.setBounds(200, 170, 200, 20);
-		deadline_.setHorizontalAlignment(SwingConstants.LEFT);
-		deadline_.setColumns(10);
-		deadline_.addFocusListener(new FocusListener() {
-			@Override
-			public void focusGained(FocusEvent e){
-				deadline_.setText("");
-				deadline_.setForeground(Color.black);
-		    }
-		    @Override
-		    public void focusLost(FocusEvent e){
-		        if (deadline_.getText().length() == 0){
-		        	deadline_.setText("2022/9/12");
-		        	deadline_.setForeground(Color.LIGHT_GRAY);
-		        }
-		    }
-		});
-		this.add(deadline_);
+
+
+		//deadline
+		model = new SpinnerDateModel();
+		spinner = new JSpinner(model);
+		JSpinner.DateEditor editor = new JSpinner.DateEditor(spinner, "yyy/MM/dd HH:mm:ss");
+		spinner.setEditor(editor);
+		spinner.setBounds(200, 170, 200, 20);
+		this.add(spinner);
+
 		
 		priorityBox_ = new JComboBox<>(priorityList_);
 		priorityBox_.setBounds(200, 210, 200, 20);
@@ -248,12 +244,16 @@ public class AddListPanel extends JPanel{
 		content_.setColumns(10);
 		this.add(content_);
 		
-		deadline_ = new JTextField(tmp.getDeadline());
-		deadline_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		deadline_.setBounds(200, 170, 200, 20);
-		deadline_.setHorizontalAlignment(SwingConstants.LEFT);
-		deadline_.setColumns(10);
-		this.add(deadline_);
+
+
+
+		//deadline
+		model = new SpinnerDateModel();
+		spinner = new JSpinner(model);
+		JSpinner.DateEditor editor = new JSpinner.DateEditor(spinner, "yyy/MM/dd HH:mm:ss");
+		spinner.setEditor(editor);
+		spinner.setBounds(200, 170, 200, 20);
+		this.add(spinner);
 		
 		priorityBox_ = new JComboBox<>(priorityList_);
 		priorityBox_.setSelectedItem(tmp.getPriority());
@@ -307,6 +307,8 @@ public class AddListPanel extends JPanel{
 				String modified;
 				String deadline;
 				String priority;
+				String createdBy;
+				String editedBy;
 				int archive;
 				if (event.getSource() == cancelButton_) {
 					err_.setVisible(false);
@@ -316,21 +318,34 @@ public class AddListPanel extends JPanel{
 					Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.TO_DO_LIST, toDoListPanel_);
 				}
 				if (event.getSource() == addButton_) {
+					int	id = 0;
+					
 					if (name_.getText().equals("") == true) {
 						err_.setVisible(true);
 					}
+					else if (shareButton_.isSelected() == true){
+						member_.writeToDB();
+						shareListPanel = new ShareListPanel();
+						shareListPanel.prepareComponents(id, member_.getID());
+						Main.mainWindow_.add(shareListPanel, "shareListPanel");
+						Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.SHARE_LIST, shareListPanel);
+					}
 					else {
+					Calendar cl = Calendar.getInstance();
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 					index = member_.getMaxIndex() + 1;
 					title = name_.getText();
 					contents = content_.getText();
-					created = null;/*後で現在時刻を代入*/
+					created = sdf.format(cl.getTime());/*後で現在時刻を代入*/
 					modified = null;
-					deadline = deadline_.getText();
+					deadline = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(model.getDate());
 					priority = (String)priorityBox_.getSelectedItem();
+					createdBy = member_.getName();
+					editedBy = null;
 					archive = 0;
 					member_.setAddCount(member_.getAddCount() + 1);
 					err_.setVisible(false);
-					Todo todo = new Todo(index, title, contents, created, modified, deadline, priority, archive);
+					Todo todo = new Todo(index, title, contents, created, modified, deadline, priority, createdBy, editedBy, archive);
 					member_.addTodo(todo);
 					member_.writeToDB();
 					toDoListPanel_ = new ToDoListPanel();
@@ -341,11 +356,22 @@ public class AddListPanel extends JPanel{
 				}
 				if (event.getSource() == editButton_)
 				{
+					int	id = 0;
+					
 					if (name_.getText().equals("") == true) {
 						err_.setVisible(true);
 					}
+					else if (shareButton_.isSelected() == true){
+						member_.writeToDB();
+						shareListPanel = new ShareListPanel();
+						shareListPanel.prepareComponents(id, member_.getID());
+						Main.mainWindow_.add(shareListPanel, "shareListPanel");
+						Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.SHARE_LIST, shareListPanel);
+					}
 					else
 					{
+						Calendar cl = Calendar.getInstance();
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 						for (int i = 0; i < member_.getTodo().size(); i++)
 						{
 							if (member_.getTodo().get(i).getIndex() == todoIndex_)
@@ -354,6 +380,8 @@ public class AddListPanel extends JPanel{
 								member_.getTodo().get(i).setContents(content_.getText());
 								member_.getTodo().get(i).setDeadline(deadline_.getText());
 								member_.getTodo().get(i).setPriority((String)priorityBox_.getSelectedItem());
+								member_.getTodo().get(i).setModified(sdf.format(cl.getTime()));
+								member_.getTodo().get(i).setEditedBy(member_.getID());
 								member_.setEditList(todoIndex_);
 							}
 						}

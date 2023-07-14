@@ -7,4 +7,6 @@ public enum ScreenMode {
 	TO_DO_LIST,
 	ADD_LIST,
 	ARCHIVE_LIST,
+	DETAIL,
+	SHARE_LIST,
 }

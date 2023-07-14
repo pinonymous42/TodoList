@@ -1,5 +1,3 @@
-
-
 import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -68,6 +66,14 @@ public class MainWindow extends JFrame {
 			break ;
 		case ARCHIVE_LIST:
 			layout_.show(this.getContentPane(), "archiveListPanel");
+			Panel.requestFocus();
+			break ;
+		case DETAIL:
+			layout_.show(this.getContentPane(), "detailPanel");
+			Panel.requestFocus();
+			break ;
+		case SHARE_LIST:
+			layout_.show(this.getContentPane(), "shareListPanel");
 			Panel.requestFocus();
 		}
 	}
