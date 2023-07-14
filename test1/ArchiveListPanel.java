@@ -1,25 +1,17 @@
+import javax.swing.*;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.Component;
 import java.awt.Font;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 
 public class ArchiveListPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 
 	int		TodoSize_;
-	
-	
-	JCheckBox	box_[];
 	
 	JLabel	title_;
 
@@ -32,8 +24,13 @@ public class ArchiveListPanel extends JPanel{
 
 	private LoginPanel loginPanel_;
 	private ToDoListPanel toDoListPanel_;
+	private	ArchiveListPanel	archiveListPanel_;
 
 	private Member member_;
+
+	private JTable		table_;
+	String[] columns = {"title", "deadline", "priority"};
+	private JCheckBox	box_[];
 	
 	
 	/*Construct*/
@@ -87,21 +84,29 @@ public class ArchiveListPanel extends JPanel{
 		if (TodoSize_ <= 8)
 			middlePanel.setPreferredSize(new Dimension(400, 240));
 		else
-			middlePanel.setPreferredSize(new Dimension(400, 30*TodoSize_));
+			middlePanel.setPreferredSize(new Dimension(400, 10+30*TodoSize_));
 		middlePanel.setLayout(null);
+
+		Object[][] data_ = new Object[member_.getTodo().size()][3];
 		box_ = new JCheckBox[TodoSize_];
 		int count = 0;
 		for (int i = 0; i < member_.getTodo().size(); i++) {
 			if (member_.getTodo().get(i).getArchive() == 1)
 			{
-				//
-				// System.out.println(member_.getTodo().get(i).getTitle());
-				box_[count] = new JCheckBox(member_.getTodo().get(i).getTitle());
-				box_[count].setBounds(100, 30*count, 400, 30);
+				box_[count] = new JCheckBox(String.valueOf(member_.getTodo().get(i).getIndex()));
+				box_[count].setBounds(50, 10+30*count, 400, 30);
+				box_[count].setForeground(new Color(238, 238, 238));
 				middlePanel.add(box_[count]);
+				data_[count][0] = member_.getTodo().get(i).getTitle();
+				data_[count][1] = member_.getTodo().get(i).getDeadline();
+				data_[count][2] = member_.getTodo().get(i).getPriority();
 				count++;
 			}
 		}
+		table_ = new JTable(data_, columns);
+		table_.setRowHeight(30);
+		table_.setBounds(100, 10, 400, 30*count);
+		middlePanel.add(table_);
 		JScrollPane scrollPane = new JScrollPane(middlePanel);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setPreferredSize(new Dimension(600, 280));
@@ -121,7 +126,7 @@ public class ArchiveListPanel extends JPanel{
 		removeButton_.setBounds(200, 10, 100, 30);
 		bottomPanel.add(removeButton_);
 		
-		archiveButton_ = new JButton("add list");
+		archiveButton_ = new JButton("return");
 		archiveButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		archiveButton_.setBorderPainted(true);
 		archiveButton_.setForeground(Color.black);
@@ -149,22 +154,24 @@ public class ArchiveListPanel extends JPanel{
 					Main.mainWindow_.add(loginPanel_, "loginPanel");
 					Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.LOGIN, loginPanel_);
 				}
-				if (event.getSource() == archiveButton_) {
+				if (event.getSource() == archiveButton_) {			
 					for (int i = 0; i < TodoSize_; i++) {
 						if (box_[i].isSelected()) {
+							int	id = Integer.valueOf(box_[i].getText());
+							member_.setEditList(id);
 							for (int j = 0; j < member_.getTodo().size(); j++)
 							{
-								if (member_.getTodo().get(j).getTitle().compareTo(box_[i].getText()) == 0)
-								{
-									member_.setEditList(member_.getTodo().get(j).getIndex());
+								if (member_.getTodo().get(j).getIndex() == id)
 									member_.getTodo().get(j).setArchive(0);
-								}
 							}
 							box_[i].setVisible(false);
-						}					
+						}
 					}
 					member_.writeToDB();
-					Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.ARCHIVE_LIST, ArchiveListPanel.this);
+					archiveListPanel_ = new ArchiveListPanel();
+					archiveListPanel_.prepareComponents(member_.getID());
+					Main.mainWindow_.add(archiveListPanel_, "archiveListPanel");
+					Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.ARCHIVE_LIST, archiveListPanel_);
 				}
 				if (event.getSource() == removeButton_) {
 					for (int i = 0; i < TodoSize_; i++) {
@@ -172,10 +179,13 @@ public class ArchiveListPanel extends JPanel{
 							member_.removeTodo(Integer.valueOf(box_[i].getText()));
 							member_.setRemoveList(Integer.valueOf(box_[i].getText()));
 							box_[i].setVisible(false);
-						}
+						}					
 					}
 					member_.writeToDB();
-					Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.ARCHIVE_LIST, ArchiveListPanel.this);
+					archiveListPanel_ = new ArchiveListPanel();
+					archiveListPanel_.prepareComponents(member_.getID());
+					Main.mainWindow_.add(archiveListPanel_, "archiveListPanel");
+					Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.ARCHIVE_LIST, archiveListPanel_);
 				}
 				if (event.getSource() == goToTodolist_) {
 					toDoListPanel_ = new ToDoListPanel();

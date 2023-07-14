@@ -1,5 +1,3 @@
-
-
 import javax.swing.*;
 
 import java.awt.BorderLayout;
@@ -44,7 +42,6 @@ public class ToDoListPanel extends JPanel{
 		this.setBackground(new Color(238, 238, 238));
 	}
 	public void prepareComponents(String ID) {
-
 		/*画面上部*/
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(null);
@@ -100,7 +97,7 @@ public class ToDoListPanel extends JPanel{
 		if (TodoSize_ <= 8)
 			middlePanel.setPreferredSize(new Dimension(400, 240));
 		else
-			middlePanel.setPreferredSize(new Dimension(400, 30*TodoSize_));
+			middlePanel.setPreferredSize(new Dimension(400, 10+30*TodoSize_));
 		middlePanel.setLayout(null);
 
 		Object[][] data_ = new Object[member_.getTodo().size()][3];
@@ -112,6 +109,7 @@ public class ToDoListPanel extends JPanel{
 			{
 				box_[count] = new JCheckBox(String.valueOf(member_.getTodo().get(i).getIndex()));
 				box_[count].setBounds(50, 10+30*count, 400, 30);
+				box_[count].setForeground(new Color(238, 238, 238));
 				middlePanel.add(box_[count]);
 				data_[count][0] = member_.getTodo().get(i).getTitle();
 				data_[count][1] = member_.getTodo().get(i).getDeadline();
@@ -199,7 +197,6 @@ public class ToDoListPanel extends JPanel{
 				Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.TO_DO_LIST, toDoListPanel_);
 			}
 			if (event.getSource() == archiveButton_) {
-				System.out.println(TodoSize_);
 				for (int i = 0; i < TodoSize_; i++) {
 					if (box_[i].isSelected()) {
 						int	id = Integer.valueOf(box_[i].getText());
