@@ -25,11 +25,13 @@ public class ToDoListPanel extends JPanel{
 	private	JButton		goToArchiveButton_;
 	private JButton		exitButton_;
 	private JButton		editButton_;
+	private	JButton		detailButton_;
 
 	private AddListPanel	addListPanel_;
 	private LoginPanel loginPanel_;
 	private ArchiveListPanel archiveListPanel_;
 	private ToDoListPanel toDoListPanel_;
+	private	DetailPanel		detailPanel_;
 	
 	private MyButtonListener	myButtonListener_;
 
@@ -161,6 +163,13 @@ public class ToDoListPanel extends JPanel{
 		editButton_.setForeground(Color.black);
 		editButton_.setBounds(400, 10, 100, 30);
 		bottomPanel.add(editButton_);
+
+		detailButton_ = new JButton("detail");
+		detailButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		detailButton_.setBorderPainted(true);
+		detailButton_.setForeground(Color.black);
+		detailButton_.setBounds(500, 10, 100, 30);
+		bottomPanel.add(detailButton_);
 		
 		this.add(bottomPanel, BorderLayout.SOUTH);
 		
@@ -172,6 +181,7 @@ public class ToDoListPanel extends JPanel{
 		addButton_.addActionListener(myButtonListener_);
 		goToArchiveButton_.addActionListener(myButtonListener_);
 		editButton_.addActionListener(myButtonListener_);
+		detailButton_.addActionListener(myButtonListener_);
 	}
 	
 	private class MyButtonListener implements ActionListener{
@@ -252,6 +262,29 @@ public class ToDoListPanel extends JPanel{
 					addListPanel_.prepareComponents(id, member_.getID());
 					Main.mainWindow_.add(addListPanel_, "addListPanel");
 					Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.ADD_LIST, addListPanel_);
+				}
+			}
+			if (event.getSource() == detailButton_){
+				int	id = 0;
+				editCount_ = 0;
+				for (int i = 0; i < TodoSize_; i++) {
+					if (box_[i].isSelected()) {
+						id = Integer.valueOf(box_[i].getText());
+						editCount_++;
+						// System.out.println(box_[i].getText() + " is edit");
+					}
+				}
+				// System.out.println(editCount_);
+				if (editCount_ != 1) {
+					err.setVisible(true);
+				}
+				else {
+					err.setVisible(false);
+					member_.writeToDB();
+					detailPanel_ = new DetailPanel();
+					detailPanel_.prepareComponents(id, member_.getID());
+					Main.mainWindow_.add(detailPanel_, "detailPanel");
+					Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.DETAIL, detailPanel_);
 				}
 			}
 		}

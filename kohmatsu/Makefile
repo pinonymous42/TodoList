@@ -1,6 +1,6 @@
 SRCS		:=	Main.java CreateAccountPanel.java ForgotPasswordPanel.java LoginPanel.java\
 				MainWindow.java Member.java ScreenMode.java Todo.java ToDoListPanel.java\
-				AddListPanel.java ArchiveListPanel.java
+				AddListPanel.java ArchiveListPanel.java DetailPanel.java
 RM			:=	rm -rf
 
 all: $(SRCS)

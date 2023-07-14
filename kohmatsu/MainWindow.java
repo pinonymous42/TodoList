@@ -69,6 +69,10 @@ public class MainWindow extends JFrame {
 		case ARCHIVE_LIST:
 			layout_.show(this.getContentPane(), "archiveListPanel");
 			Panel.requestFocus();
+			break ;
+		case DETAIL:
+			layout_.show(this.getContentPane(), "detailPanel");
+			Panel.requestFocus();
 		}
 	}
 }
