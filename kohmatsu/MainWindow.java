@@ -73,6 +73,10 @@ public class MainWindow extends JFrame {
 		case DETAIL:
 			layout_.show(this.getContentPane(), "detailPanel");
 			Panel.requestFocus();
+			break ;
+		case SHARE_LIST:
+			layout_.show(this.getContentPane(), "shareListPanel");
+			Panel.requestFocus();
 		}
 	}
 }

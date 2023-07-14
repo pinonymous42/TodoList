@@ -50,7 +50,7 @@ public class ToDoListPanel extends JPanel{
 		/*画面上部*/
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(null);
-		topPanel.setPreferredSize(new Dimension(600, 70));
+		topPanel.setPreferredSize(new Dimension(600, 75));
 		
 		title = new JLabel("ToDolist");
 		title.setFont(new Font("Dialog", Font.BOLD, 30));

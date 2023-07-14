@@ -8,4 +8,5 @@ public enum ScreenMode {
 	ADD_LIST,
 	ARCHIVE_LIST,
 	DETAIL,
+	SHARE_LIST,
 }

@@ -41,6 +41,7 @@ public class AddListPanel extends JPanel{
 	private Member member_;
 
 	private ToDoListPanel toDoListPanel_;
+	private	ShareListPanel	shareListPanel;
 	
 	AddListPanel(){
 		this.setLayout(null);
@@ -320,8 +321,17 @@ public class AddListPanel extends JPanel{
 					Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.TO_DO_LIST, toDoListPanel_);
 				}
 				if (event.getSource() == addButton_) {
+					int	id = 0;
+					
 					if (name_.getText().equals("") == true) {
 						err_.setVisible(true);
+					}
+					else if (shareButton_.isSelected() == true){
+						member_.writeToDB();
+						shareListPanel = new ShareListPanel();
+						shareListPanel.prepareComponents(id, member_.getID());
+						Main.mainWindow_.add(shareListPanel, "shareListPanel");
+						Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.SHARE_LIST, shareListPanel);
 					}
 					else {
 					Calendar cl = Calendar.getInstance();
@@ -349,8 +359,17 @@ public class AddListPanel extends JPanel{
 				}
 				if (event.getSource() == editButton_)
 				{
+					int	id = 0;
+					
 					if (name_.getText().equals("") == true) {
 						err_.setVisible(true);
+					}
+					else if (shareButton_.isSelected() == true){
+						member_.writeToDB();
+						shareListPanel = new ShareListPanel();
+						shareListPanel.prepareComponents(id, member_.getID());
+						Main.mainWindow_.add(shareListPanel, "shareListPanel");
+						Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.SHARE_LIST, shareListPanel);
 					}
 					else
 					{
