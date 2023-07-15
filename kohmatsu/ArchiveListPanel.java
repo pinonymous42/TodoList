@@ -43,7 +43,7 @@ public class ArchiveListPanel extends JPanel{
 		//画面上部
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(null);
-		topPanel.setPreferredSize(new Dimension(600, 70));
+		topPanel.setPreferredSize(new Dimension(600, 105));
 		
 		title_ = new JLabel("Archive List");
 		title_.setFont(new Font("Dialog", Font.BOLD, 30));
@@ -66,7 +66,7 @@ public class ArchiveListPanel extends JPanel{
 		goToTodolist_.setBorderPainted(false);
 		goToTodolist_.setBounds(400, 10, 200, 30);
 		topPanel.add(goToTodolist_);
-		this.add(topPanel, BorderLayout.NORTH);
+		// this.add(topPanel, BorderLayout.NORTH);
 
 		try
 		{
@@ -94,9 +94,9 @@ public class ArchiveListPanel extends JPanel{
 			if (member_.getTodo().get(i).getArchive() == 1)
 			{
 				box_[count] = new JCheckBox(String.valueOf(member_.getTodo().get(i).getIndex()));
-				box_[count].setBounds(50, 10+30*count, 400, 30);
-				box_[count].setForeground(new Color(238, 238, 238));
+				box_[count].setBounds(20, 10+30*count, 400, 30);
 				middlePanel.add(box_[count]);
+				box_[count].setForeground(new Color(238, 238, 238));
 				data_[count][0] = member_.getTodo().get(i).getTitle();
 				data_[count][1] = member_.getTodo().get(i).getDeadline();
 				data_[count][2] = member_.getTodo().get(i).getPriority();
@@ -104,15 +104,23 @@ public class ArchiveListPanel extends JPanel{
 			}
 		}
 		table_ = new JTable(data_, columns);
+		table_.setAutoCreateRowSorter(true);
+		table_.setFillsViewportHeight(true);
+		table_.setShowVerticalLines(true);
+		table_.setGridColor(Color.black);
+		table_.getColumn("title").setPreferredWidth(200);
+		table_.getColumn("deadline").setPreferredWidth(200);
+		table_.getColumn("priority").setPreferredWidth(100);
 		table_.setRowHeight(30);
-		table_.setBounds(100, 10, 400, 30*count);
+		table_.getTableHeader().setBounds(62, 70, 500, 30);
+		topPanel.add(table_.getTableHeader());
+		table_.setBounds(60, 10, 500, 30*count);
 		middlePanel.add(table_);
 		JScrollPane scrollPane = new JScrollPane(middlePanel);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setPreferredSize(new Dimension(600, 280));
+		this.add(topPanel, BorderLayout.NORTH);
 		this.add(scrollPane, BorderLayout.CENTER);
-		
-		
 		
 		/*画面下部（ボタン）*/
 		JPanel bottomPanel = new JPanel();

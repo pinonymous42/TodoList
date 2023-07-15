@@ -15,17 +15,17 @@ public class DetailPanel extends JPanel{
 	private int TodoSize_;/*TodoList size*/
 
 	private JLabel		title_;
-	private JLabel		nameLabel_;
-	private JLabel		contentLabel_;
-	private JLabel		createdLabel_;
-	private JLabel		modifiedLabel_;
-	private JLabel		deadlineLabel_;
-	private JLabel		priorityLabel_;
-	private JLabel		createdByLabel_;
-	private JLabel		editByLabel_;
-	private JLabel		shareLabel_;
+	// private JLabel		nameLabel_;
+	// private JLabel		contentLabel_;
+	// private JLabel		createdLabel_;
+	// private JLabel		modifiedLabel_;
+	// private JLabel		deadlineLabel_;
+	// private JLabel		priorityLabel_;
+	// private JLabel		createdByLabel_;
+	// private JLabel		editByLabel_;
+	// private JLabel		shareLabel_;
 
-	private int			todoIndex_;
+	// private int			todoIndex_;
 
 	private JButton		cancelButton_;
 	
@@ -34,6 +34,9 @@ public class DetailPanel extends JPanel{
 	private Member member_;
 
 	private ToDoListPanel toDoListPanel_;
+
+	String[] columns = {"elements", "content"};
+	private	JTable		table_;
 
 	// private int memberCount_ = 0;
 	private ArrayList<String> sharedList_ = new ArrayList<String>();
@@ -73,7 +76,7 @@ public class DetailPanel extends JPanel{
 
 	public void prepareComponents(int todo, String ID) {
 		Todo tmp = null;
-		todoIndex_ = todo;
+		// todoIndex_ = todo;
 		getFromRights(todo);
 		
 		try
@@ -116,62 +119,60 @@ public class DetailPanel extends JPanel{
 			middlePanel.setPreferredSize(new Dimension(400, 400));
 		else
 			middlePanel.setPreferredSize(new Dimension(400, 400+30*TodoSize_));
-		middlePanel.setLayout(null);
+		middlePanel.setLayout(new BorderLayout());
 
-
-		nameLabel_ = new JLabel("title: " + tmp.getTitle());
-		nameLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		nameLabel_.setBounds(50, 20, 500, 20);
-		middlePanel.add(nameLabel_);
-		
-		contentLabel_ = new JLabel("content: " + tmp.getContents());
-		contentLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		contentLabel_.setBounds(50, 60, 500, 20);
-		middlePanel.add(contentLabel_);
-		
-		createdLabel_ = new JLabel("created: " + tmp.getCreated());
-		createdLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		createdLabel_.setBounds(50, 100, 500, 20);
-		middlePanel.add(createdLabel_);
-
-		modifiedLabel_ = new JLabel("modified: " + tmp.getModified());
-		modifiedLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		modifiedLabel_.setBounds(50, 140, 500, 20);
-		middlePanel.add(modifiedLabel_);
-
-		deadlineLabel_ = new JLabel("deadline: " + tmp.getDeadline());
-		deadlineLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		deadlineLabel_.setBounds(50, 180, 500, 20);
-		middlePanel.add(deadlineLabel_);
-		
-		priorityLabel_ = new JLabel("priority: " + tmp.getPriority());
-		priorityLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		priorityLabel_.setBounds(50, 220, 500, 20);
-		middlePanel.add(priorityLabel_);
-		
-		createdByLabel_ = new JLabel("createdBy: " + tmp.getCreatedBy());
-		createdByLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		createdByLabel_.setBounds(50, 260, 500, 20);
-		middlePanel.add(createdByLabel_);
-
-		editByLabel_ = new JLabel("editBy: " + tmp.getEditedBy());
-		editByLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		editByLabel_.setBounds(50, 300, 500, 20);
-		middlePanel.add(editByLabel_);
-
-		String sentence = "shared: ";
+		Object[][] data_ = new Object[9][2];
+		data_[0][0] = "title";
+		data_[0][1] = tmp.getTitle();
+		data_[1][0] = "content";
+		data_[1][1] = tmp.getContents();
+		data_[2][0] = "created";
+		data_[2][1] = tmp.getCreated();
+		data_[3][0] = "modified";
+		data_[3][1] = tmp.getModified();
+		data_[4][0] = "deadline";
+		data_[4][1] = tmp.getDeadline();
+		data_[5][0] = "priority";
+		data_[5][1] = tmp.getPriority();
+		data_[6][0] = "created by";
+		data_[6][1] = tmp.getCreatedBy();
+		data_[7][0] = "edit by";
+		data_[7][1] = tmp.getEditedBy();
+		data_[8][0] = "share";
+		String sentence = "";
 		for (int i = 0; i < sharedList_.size() - 1; i++)
 			sentence += (dictFromIndex.get(sharedList_.get(i)) + ", ");
 		sentence += dictFromIndex.get(sharedList_.get(sharedList_.size() - 1));
-		shareLabel_ = new JLabel(sentence);
-		shareLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		shareLabel_.setBounds(50, 340, 500, 20);
-		middlePanel.add(shareLabel_);
+		data_[8][1] = sentence;
+		table_ = new JTable(data_, columns);
+		table_.setAutoCreateRowSorter(true);
+		table_.setFillsViewportHeight(true);
+		table_.setShowVerticalLines(false);
+		table_.setGridColor(Color.black);
+		table_.getColumn("elements").setPreferredWidth(80);
+		table_.getColumn("content").setPreferredWidth(420);
+		table_.setRowHeight(30);
+		middlePanel.add(table_.getTableHeader(), BorderLayout.NORTH);
+		middlePanel.add(table_);
 
 		JScrollPane scrollPane = new JScrollPane(middlePanel);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setPreferredSize(new Dimension(600, 280));
 		this.add(scrollPane, BorderLayout.CENTER);
+
+		// String sentence = "";
+		// for (int i = 0; i < sharedList_.size() - 1; i++)
+		// 	sentence += (dictFromIndex.get(sharedList_.get(i)) + ", ");
+		// sentence += dictFromIndex.get(sharedList_.get(sharedList_.size() - 1));
+		// shareLabel_ = new JLabel(sentence);
+		// shareLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		// shareLabel_.setBounds(50, 340, 500, 20);
+		// middlePanel.add(shareLabel_);
+
+		// JScrollPane scrollPane = new JScrollPane(middlePanel);
+		// scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		// scrollPane.setPreferredSize(new Dimension(600, 280));
+		// this.add(scrollPane, BorderLayout.CENTER);
 		
 		
 		//画面下部

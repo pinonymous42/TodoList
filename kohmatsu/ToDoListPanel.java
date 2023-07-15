@@ -50,7 +50,7 @@ public class ToDoListPanel extends JPanel{
 		/*画面上部*/
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(null);
-		topPanel.setPreferredSize(new Dimension(600, 75));
+		topPanel.setPreferredSize(new Dimension(600, 110));
 		
 		title = new JLabel("ToDolist");
 		title.setFont(new Font("Dialog", Font.BOLD, 30));
@@ -68,7 +68,7 @@ public class ToDoListPanel extends JPanel{
 		err.setVisible(false);
 		topPanel.add(err);
 		
-		exitButton_ = new JButton("Exit");
+		exitButton_ = new JButton("Logout");
 		exitButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		exitButton_.setForeground(UIManager.getColor("Button.disabledText"));
 		exitButton_.setBorderPainted(false);
@@ -82,9 +82,7 @@ public class ToDoListPanel extends JPanel{
 		goToArchiveButton_.setBounds(400, 10, 200, 30);
 		topPanel.add(goToArchiveButton_);
 
-		this.add(topPanel, BorderLayout.NORTH);
-		
-		this.add(topPanel, BorderLayout.NORTH);
+		// this.add(topPanel, BorderLayout.NORTH);
 
 		try
 		{
@@ -102,7 +100,7 @@ public class ToDoListPanel extends JPanel{
 		if (TodoSize_ <= 8)
 			middlePanel.setPreferredSize(new Dimension(400, 240));
 		else
-			middlePanel.setPreferredSize(new Dimension(400, 30*TodoSize_));
+			middlePanel.setPreferredSize(new Dimension(400, 10+30*TodoSize_));
 		middlePanel.setLayout(null);
 
 		Object[][] data_ = new Object[member_.getTodo().size()][3];
@@ -112,10 +110,8 @@ public class ToDoListPanel extends JPanel{
 		for (int i = 0; i < member_.getTodo().size(); i++) {
 			if (member_.getTodo().get(i).getArchive() == 0)
 			{
-				//
-				// member_.getTodo().get(i).print();
 				box_[count] = new JCheckBox(String.valueOf(member_.getTodo().get(i).getIndex()));
-				box_[count].setBounds(50, 10+30*count, 400, 30);
+				box_[count].setBounds(20, 10+30*count, 400, 30);
 				middlePanel.add(box_[count]);
 				box_[count].setForeground(new Color(238, 238, 238));
 				data_[count][0] = member_.getTodo().get(i).getTitle();
@@ -125,12 +121,22 @@ public class ToDoListPanel extends JPanel{
 			}
 		}
 		table_ = new JTable(data_, columns);
+		table_.setAutoCreateRowSorter(true);
+		table_.setFillsViewportHeight(true);
+		table_.setShowVerticalLines(true);
+		table_.setGridColor(Color.black);
+		table_.getColumn("title").setPreferredWidth(200);
+		table_.getColumn("deadline").setPreferredWidth(200);
+		table_.getColumn("priority").setPreferredWidth(100);
 		table_.setRowHeight(30);
-		table_.setBounds(100, 10, 400, 30*count);
+		table_.getTableHeader().setBounds(62, 70, 500, 30);
+		topPanel.add(table_.getTableHeader());
+		table_.setBounds(60, 10, 500, 30*count);
 		middlePanel.add(table_);
 		JScrollPane scrollPane = new JScrollPane(middlePanel);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setPreferredSize(new Dimension(600, 280));
+		this.add(topPanel, BorderLayout.NORTH);
 		this.add(scrollPane, BorderLayout.CENTER);
 
 		/*画面下部（ボタン）*/
