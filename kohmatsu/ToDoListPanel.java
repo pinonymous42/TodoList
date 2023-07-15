@@ -112,6 +112,8 @@ public class ToDoListPanel extends JPanel{
 		for (int i = 0; i < member_.getTodo().size(); i++) {
 			if (member_.getTodo().get(i).getArchive() == 0)
 			{
+				//
+				// member_.getTodo().get(i).print();
 				box_[count] = new JCheckBox(String.valueOf(member_.getTodo().get(i).getIndex()));
 				box_[count].setBounds(50, 10+30*count, 400, 30);
 				middlePanel.add(box_[count]);

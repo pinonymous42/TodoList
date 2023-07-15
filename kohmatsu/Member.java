@@ -63,24 +63,13 @@ public class Member {
         Class.forName("org.sqlite.JDBC");
         Connection connection = null;
         Statement statement = null;
-        // ResultSet rs = null;
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:./test.db");
             statement = connection.createStatement();
             for (int i = 0; i < removeList_.size(); i++)
             {
-                // int index = 0;
-                // rs = statement.executeQuery("SELECT * FROM Todo");
-                // while (rs.next())
-                // {
-                //     if (rs.getString(2).compareTo(removeList_.get(i)) == 0)
-                //     {
-                //         index = Integer.valueOf(rs.getString(1));
-                //         break ;
-                //     }
-                // }
                 statement.executeUpdate("DELETE FROM Todo WHERE id=" + removeList_.get(i));
-                // rs.close();
+                statement.executeUpdate("DELETE FROM Rights WHERE todo=" + removeList_.get(i));
             }
             statement.executeUpdate("DELETE FROM Rights WHERE member=" + this.index_);
             for (int i = 0; i < editList_.size(); i++)
@@ -90,9 +79,9 @@ public class Member {
                 Todo tmp = this.todo_.get(i);
                 statement.executeUpdate("INSERT INTO Rights VALUES(" + tmp.getIndex() + ", " + this.index_ + ")");
                 if (i >= todo_.size() - addCount_)
-                    statement.executeUpdate("INSERT INTO Todo VALUES(" + tmp.getIndex() + ", '" + tmp.getTitle() + "', '" + tmp.getContents() + "', '" + tmp.getCreated() + "', '" + tmp.getModified() + "', '" + tmp.getDeadline() + "', '" + tmp.getPriority() + "', '" + tmp.getCreated() + "', '" + tmp.getEditedBy() + "', " + tmp.getArchive() + ")");
+                    statement.executeUpdate("INSERT INTO Todo VALUES(" + tmp.getIndex() + ", '" + tmp.getTitle() + "', '" + tmp.getContents() + "', '" + tmp.getCreated() + "', '" + tmp.getModified() + "', '" + tmp.getDeadline() + "', '" + tmp.getPriority() + "', '" + tmp.getCreatedBy() + "', '" + tmp.getEditedBy() + "', " + tmp.getArchive() + ")");
                 if (editList_.contains(tmp.getIndex()) == true)
-                    statement.executeUpdate("INSERT INTO Todo VALUES(" + tmp.getIndex() + ", '" + tmp.getTitle() + "', '" + tmp.getContents() + "', '" + tmp.getCreated() + "', '" + tmp.getModified() + "', '" + tmp.getDeadline() + "', '" + tmp.getPriority() + "', '" + tmp.getCreated() + "', '" + tmp.getEditedBy() + "', " + tmp.getArchive() + ")");
+                    statement.executeUpdate("INSERT INTO Todo VALUES(" + tmp.getIndex() + ", '" + tmp.getTitle() + "', '" + tmp.getContents() + "', '" + tmp.getCreated() + "', '" + tmp.getModified() + "', '" + tmp.getDeadline() + "', '" + tmp.getPriority() + "', '" + tmp.getCreatedBy() + "', '" + tmp.getEditedBy() + "', " + tmp.getArchive() + ")");
             }
         } catch(SQLException e) {
             System.err.println(e.getMessage());

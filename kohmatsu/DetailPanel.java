@@ -5,6 +5,9 @@ import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.*;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DetailPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
@@ -31,15 +34,47 @@ public class DetailPanel extends JPanel{
 	private Member member_;
 
 	private ToDoListPanel toDoListPanel_;
+
+	// private int memberCount_ = 0;
+	private ArrayList<String> sharedList_ = new ArrayList<String>();
+	private HashMap<String, String> dictFromIndex = new HashMap<String, String>();
 	
 	DetailPanel(){
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBackground(new Color(238, 238, 238));
 	}
 
+	public void getFromRights(int todo)
+	{
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet rs = null;
+		try {
+			Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection("jdbc:sqlite:./test.db");
+            statement = connection.createStatement();
+			rs = statement.executeQuery("SELECT * FROM Member");
+			while (rs.next())
+				dictFromIndex.put(rs.getString(1), rs.getString(2));
+			rs.close();
+			rs = statement.executeQuery("SELECT * FROM Rights WHERE todo=" + todo);
+			while (rs.next())
+				sharedList_.add(rs.getString(2));
+			rs.close();
+        } catch(SQLException e) {
+            System.err.println(e.getMessage());
+        } catch(ClassNotFoundException e) {
+			System.out.println(e);
+		} finally {
+			try { connection.close(); } catch (Exception e) { /* Ignored */ }
+			try { statement.close(); } catch (Exception e) { /* Ignored */ }
+		}
+	}
+
 	public void prepareComponents(int todo, String ID) {
 		Todo tmp = null;
 		todoIndex_ = todo;
+		getFromRights(todo);
 		
 		try
 		{
@@ -56,6 +91,8 @@ public class DetailPanel extends JPanel{
 		{
 			System.out.println(e);
 		}
+		//
+		// tmp.print();
 
 		//画面上部
 		JPanel topPanel = new JPanel();
@@ -111,7 +148,7 @@ public class DetailPanel extends JPanel{
 		priorityLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		priorityLabel_.setBounds(50, 220, 500, 20);
 		middlePanel.add(priorityLabel_);
-
+		
 		createdByLabel_ = new JLabel("createdBy: " + tmp.getCreatedBy());
 		createdByLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		createdByLabel_.setBounds(50, 260, 500, 20);
@@ -122,7 +159,11 @@ public class DetailPanel extends JPanel{
 		editByLabel_.setBounds(50, 300, 500, 20);
 		middlePanel.add(editByLabel_);
 
-		shareLabel_ = new JLabel("share: " + tmp.getCreated());
+		String sentence = "shared: ";
+		for (int i = 0; i < sharedList_.size() - 1; i++)
+			sentence += (dictFromIndex.get(sharedList_.get(i)) + ", ");
+		sentence += dictFromIndex.get(sharedList_.get(sharedList_.size() - 1));
+		shareLabel_ = new JLabel(sentence);
 		shareLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		shareLabel_.setBounds(50, 340, 500, 20);
 		middlePanel.add(shareLabel_);

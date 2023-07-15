@@ -326,35 +326,38 @@ public class AddListPanel extends JPanel{
 					if (name_.getText().equals("") == true) {
 						err_.setVisible(true);
 					}
-					else if (shareButton_.isSelected() == true){
+					else
+					{
+						Calendar cl = Calendar.getInstance();
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+						index = member_.getMaxIndex() + 1;
+						title = name_.getText();
+						contents = content_.getText();
+						created = sdf.format(cl.getTime());/*後で現在時刻を代入*/
+						modified = "not modified";
+						deadline = deadline_.getText();
+						priority = (String)priorityBox_.getSelectedItem();
+						createdBy = member_.getName();
+						editedBy = "not edited";
+						archive = 0;
+						member_.setAddCount(member_.getAddCount() + 1);
+						err_.setVisible(false);
+						Todo todo = new Todo(index, title, contents, created, modified, deadline, priority, createdBy, editedBy, archive);
+						member_.addTodo(todo);
+						if (shareButton_.isSelected() == true){
+							member_.writeToDB();
+							shareListPanel = new ShareListPanel();
+							shareListPanel.prepareComponents(index, member_.getID());
+							Main.mainWindow_.add(shareListPanel, "shareListPanel");
+							Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.SHARE_LIST, shareListPanel);
+						}
+						else {
 						member_.writeToDB();
-						shareListPanel = new ShareListPanel();
-						shareListPanel.prepareComponents(id, member_.getID());
-						Main.mainWindow_.add(shareListPanel, "shareListPanel");
-						Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.SHARE_LIST, shareListPanel);
-					}
-					else {
-					Calendar cl = Calendar.getInstance();
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-					index = member_.getMaxIndex() + 1;
-					title = name_.getText();
-					contents = content_.getText();
-					created = sdf.format(cl.getTime());/*後で現在時刻を代入*/
-					modified = null;
-					deadline = deadline_.getText();
-					priority = (String)priorityBox_.getSelectedItem();
-					createdBy = member_.getName();
-					editedBy = null;
-					archive = 0;
-					member_.setAddCount(member_.getAddCount() + 1);
-					err_.setVisible(false);
-					Todo todo = new Todo(index, title, contents, created, modified, deadline, priority, createdBy, editedBy, archive);
-					member_.addTodo(todo);
-					member_.writeToDB();
-					toDoListPanel_ = new ToDoListPanel();
-					toDoListPanel_.prepareComponents(member_.getID());
-					Main.mainWindow_.add(toDoListPanel_, "toDoListPanel");
-					Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.TO_DO_LIST, toDoListPanel_);
+						toDoListPanel_ = new ToDoListPanel();
+						toDoListPanel_.prepareComponents(member_.getID());
+						Main.mainWindow_.add(toDoListPanel_, "toDoListPanel");
+						Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.TO_DO_LIST, toDoListPanel_);
+						}
 					}
 				}
 				if (event.getSource() == editButton_)
@@ -363,13 +366,6 @@ public class AddListPanel extends JPanel{
 					
 					if (name_.getText().equals("") == true) {
 						err_.setVisible(true);
-					}
-					else if (shareButton_.isSelected() == true){
-						member_.writeToDB();
-						shareListPanel = new ShareListPanel();
-						shareListPanel.prepareComponents(id, member_.getID());
-						Main.mainWindow_.add(shareListPanel, "shareListPanel");
-						Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.SHARE_LIST, shareListPanel);
 					}
 					else
 					{
@@ -384,16 +380,26 @@ public class AddListPanel extends JPanel{
 								member_.getTodo().get(i).setDeadline(deadline_.getText());
 								member_.getTodo().get(i).setPriority((String)priorityBox_.getSelectedItem());
 								member_.getTodo().get(i).setModified(sdf.format(cl.getTime()));
-								member_.getTodo().get(i).setEditedBy(member_.getID());
+								member_.getTodo().get(i).setEditedBy(member_.getName());
 								member_.setEditList(todoIndex_);
 							}
 						}
-						// member_.printTodo();
-						member_.writeToDB();
-						toDoListPanel_ = new ToDoListPanel();
-						toDoListPanel_.prepareComponents(member_.getID());
-						Main.mainWindow_.add(toDoListPanel_, "toDoListPanel");
-						Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.TO_DO_LIST, toDoListPanel_);
+						if (shareButton_.isSelected() == true){
+							member_.writeToDB();
+							shareListPanel = new ShareListPanel();
+							shareListPanel.prepareComponents(todoIndex_, member_.getID());
+							Main.mainWindow_.add(shareListPanel, "shareListPanel");
+							Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.SHARE_LIST, shareListPanel);
+						}
+						else
+						{
+							// member_.printTodo();
+							member_.writeToDB();
+							toDoListPanel_ = new ToDoListPanel();
+							toDoListPanel_.prepareComponents(member_.getID());
+							Main.mainWindow_.add(toDoListPanel_, "toDoListPanel");
+							Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.TO_DO_LIST, toDoListPanel_);
+						}
 					}
 				}
 			}

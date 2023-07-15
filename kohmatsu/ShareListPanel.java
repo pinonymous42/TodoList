@@ -5,9 +5,12 @@ import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.*;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ShareListPanel extends JPanel{
-	private int TodoSize_;/*TodoList size*/
+	// private int TodoSize_;/*TodoList size*/
 
 	private JLabel		title_;
 	private	JLabel		err_;
@@ -18,7 +21,7 @@ public class ShareListPanel extends JPanel{
 	private JCheckBox	box_[];
 
 	private int			todoIndex_;
-	private int			editCount_;
+	// private int			editCount_;
 	
 	private Member member_;
 
@@ -26,24 +29,80 @@ public class ShareListPanel extends JPanel{
 
 	private ToDoListPanel toDoListPanel_;
 
+	private ArrayList<String> sharedList_ = new ArrayList<String>();
+	private int memberCount_ = 0;
+	private HashMap<String, String> dictFromIndex = new HashMap<String, String>();
+	private HashMap<String, String> dictFromName = new HashMap<String, String>();
+
 	ShareListPanel(){
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBackground(new Color(238, 238, 238));
 	}
+
+	public void getFromRights(int todo)
+	{
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet rs = null;
+		try {
+			Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection("jdbc:sqlite:./test.db");
+            statement = connection.createStatement();
+			rs = statement.executeQuery("SELECT * FROM Member");
+			while (rs.next())
+			{
+				memberCount_++;
+				dictFromIndex.put(rs.getString(1), rs.getString(2));
+				dictFromName.put(rs.getString(2), rs.getString(1));
+				sharedList_.add(rs.getString(1));
+			}
+			rs.close();
+			rs = statement.executeQuery("SELECT * FROM Rights WHERE todo=" + todo);
+			while (rs.next())
+			{
+				if (sharedList_.contains(rs.getString(2)))
+					sharedList_.remove(rs.getString(2));
+			}
+			rs.close();
+        } catch(SQLException e) {
+            System.err.println(e.getMessage());
+        } catch(ClassNotFoundException e) {
+			System.out.println(e);
+		} finally {
+			try { connection.close(); } catch (Exception e) { /* Ignored */ }
+			try { statement.close(); } catch (Exception e) { /* Ignored */ }
+		}
+	}
+
+	public void writeToRights()
+	{
+		Connection connection = null;
+		Statement statement = null;
+		try {
+			Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection("jdbc:sqlite:./test.db");
+            statement = connection.createStatement();
+			statement.executeUpdate("DELETE FROM Rights WHERE todo=" + todoIndex_);
+			for (int i = 0; i < sharedList_.size(); i++)
+				statement.executeUpdate("INSERT INTO Rights values(" + todoIndex_ + ", " + Integer.valueOf(dictFromName.get(sharedList_.get(i))) + ")");
+        } catch(SQLException e) {
+            System.err.println(e.getMessage());
+        } catch(ClassNotFoundException e) {
+			System.out.println(e);
+		} finally {
+			try { connection.close(); } catch (Exception e) { /* Ignored */ }
+			try { statement.close(); } catch (Exception e) { /* Ignored */ }
+		}
+	}
+
 	public void prepareComponents(int todo, String ID) {
 		Todo tmp = null;
 		todoIndex_ = todo;
-		
+		getFromRights(todo);
 		try
 		{
 			member_ = new Member();
 			member_.readFromDB(ID);
-			TodoSize_ = member_.getNotArchiveCount();
-			for (int i = 0; i < member_.getTodo().size(); i++)
-			{
-				if (member_.getTodo().get(i).getIndex() == todo)
-					tmp = member_.getTodo().get(i);
-			}
 		}
 		catch (ClassNotFoundException e)
 		{
@@ -63,35 +122,26 @@ public class ShareListPanel extends JPanel{
 		title_.setBounds(150, 20, 300, 40);
 		topPanel.add(title_);
 
-		err_ = new JLabel("choose one at least");
-		err_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		err_.setForeground(Color.red);
-		err_.setHorizontalAlignment(SwingConstants.CENTER);
-		err_.setBounds(150, 50, 300, 20);
-		err_.setVisible(false);
-		topPanel.add(err_);
-
 		this.add(topPanel, BorderLayout.NORTH);
 
 		//画面中央
 		JPanel middlePanel = new JPanel();
-		if (TodoSize_ <= 8)
+		if (sharedList_.size() <= 8)
 			middlePanel.setPreferredSize(new Dimension(400, 240));
 		else
-			middlePanel.setPreferredSize(new Dimension(400, 30*TodoSize_));
+			middlePanel.setPreferredSize(new Dimension(400, 30*sharedList_.size()));
 		middlePanel.setLayout(null);
 
-		box_ = new JCheckBox[TodoSize_];
-		int count = 0;
-		for (int i = 0; i < member_.getTodo().size(); i++) {
-			if (member_.getTodo().get(i).getArchive() == 0)
-			{
-				box_[count] = new JCheckBox(String.valueOf(member_.getTodo().get(i).getIndex()));
-				box_[count].setBounds(50, 10+30*count, 400, 30);
-				middlePanel.add(box_[count]);
-				count++;
-			}
+		box_ = new JCheckBox[memberCount_];
+		for (int i = 0; i < memberCount_; i++) {
+				if (sharedList_.contains(String.valueOf(i)))
+					box_[i] = new JCheckBox(dictFromIndex.get(String.valueOf(i)), false);
+				else
+					box_[i] = new JCheckBox(dictFromIndex.get(String.valueOf(i)), true);
+				box_[i].setBounds(50, 10+30*i, 400, 30);
+				middlePanel.add(box_[i]);
 		}
+		sharedList_.clear();
 		JScrollPane scrollPane = new JScrollPane(middlePanel);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setPreferredSize(new Dimension(600, 280));
@@ -111,7 +161,7 @@ public class ShareListPanel extends JPanel{
 		cancelButton_.setBounds(200, 10, 100, 30);
 		bottomPanel.add(cancelButton_);
 		
-		addButton_ = new JButton("Add");
+		addButton_ = new JButton("Change");
 		addButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		addButton_.setForeground(new Color(0, 255, 0));
 		addButton_.setBorderPainted(true);
@@ -127,75 +177,23 @@ public class ShareListPanel extends JPanel{
 
 	private class MyButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent event) {
-			try
-			{
-				int index;
-				String title;
-				String contents;
-				String created;
-				String modified;
-				String deadline;
-				String priority;
-				String createdBy;
-				String editedBy;
-				int archive;
-				if (event.getSource() == cancelButton_) {
-					toDoListPanel_ = new ToDoListPanel();
-					toDoListPanel_.prepareComponents(member_.getID());
-					Main.mainWindow_.add(toDoListPanel_, "toDoListPanel");
-					Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.TO_DO_LIST, toDoListPanel_);
-				}
-				if (event.getSource() == addButton_) {
-					int	id = 0;
-					editCount_ = 0;
-					for (int i = 0; i < TodoSize_; i++) {
-						if (box_[i].isSelected()) {
-							id = Integer.valueOf(box_[i].getText());
-							editCount_++;
-							// System.out.println(box_[i].getText() + " is edit");
-						}
-					}
-					// System.out.println(editCount_);
-					if (editCount_ == 0) {
-						err_.setVisible(true);
-					}
-					else {
-						err_.setVisible(false);
-						member_.writeToDB();
-						toDoListPanel_ = new ToDoListPanel();
-						toDoListPanel_.prepareComponents(member_.getID());
-						Main.mainWindow_.add(toDoListPanel_, "toDoListPanel");
-						Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.DETAIL, toDoListPanel_);
-					}
-					// else {
-					// 	Calendar cl = Calendar.getInstance();
-					// 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-					// 	index = member_.getMaxIndex() + 1;
-					// 	title = name_.getText();
-					// 	contents = content_.getText();
-					// 	created = sdf.format(cl.getTime());/*後で現在時刻を代入*/
-					// 	modified = null;
-					// 	deadline = deadline_.getText();
-					// 	priority = (String)priorityBox_.getSelectedItem();
-					// 	createdBy = member_.getName();
-					// 	editedBy = null;
-					// 	archive = 0;
-					// 	member_.setAddCount(member_.getAddCount() + 1);
-					// 	err_.setVisible(false);
-					// 	Todo todo = new Todo(index, title, contents, created, modified, deadline, priority, createdBy, editedBy, archive);
-					// 	member_.addTodo(todo);
-					// 	member_.writeToDB();
-					// 	toDoListPanel_ = new ToDoListPanel();
-					// 	toDoListPanel_.prepareComponents(member_.getID());
-					// 	Main.mainWindow_.add(toDoListPanel_, "toDoListPanel");
-					// 	Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.TO_DO_LIST, toDoListPanel_);
-					// }
-				}
-				
+			if (event.getSource() == cancelButton_) {
+				toDoListPanel_ = new ToDoListPanel();
+				toDoListPanel_.prepareComponents(member_.getID());
+				Main.mainWindow_.add(toDoListPanel_, "toDoListPanel");
+				Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.TO_DO_LIST, toDoListPanel_);
 			}
-			catch (ClassNotFoundException e)
-			{
-				System.out.println(e);
+			if (event.getSource() == addButton_) {
+				for (int i = 0; i < memberCount_; i++) {
+					if (box_[i].isSelected()) {
+						sharedList_.add(box_[i].getText());
+					}
+				}
+				writeToRights();
+				toDoListPanel_ = new ToDoListPanel();
+				toDoListPanel_.prepareComponents(member_.getID());
+				Main.mainWindow_.add(toDoListPanel_, "toDoListPanel");
+				Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.TO_DO_LIST, toDoListPanel_);
 			}
 		}
 	}

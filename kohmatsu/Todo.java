@@ -137,4 +137,19 @@ public class Todo {
     {
         this.archive_ = archive;
     }
+
+    public void print()
+    {
+        System.out.println("--------------------");
+        System.out.println(this.index_);
+        System.out.println(this.title_);
+        System.out.println(this.contents_);
+        System.out.println(this.created_);
+        System.out.println(this.modified_);
+        System.out.println(this.deadline_);
+        System.out.println(this.priority_);
+        System.out.println(this.createdBy_);
+        System.out.println(this.editedBy_);
+        System.out.println(this.archive_);
+    }
 }
