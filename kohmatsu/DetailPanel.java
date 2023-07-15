@@ -25,14 +25,16 @@ public class DetailPanel extends JPanel{
 	// private JLabel		editByLabel_;
 	// private JLabel		shareLabel_;
 
-	// private int			todoIndex_;
+	private int			todoIndex_;
 
 	private JButton		cancelButton_;
+	private JButton		editButton_;
 	
 	private MyButtonListener	myButtonListener_;
 
 	private Member member_;
 
+	private AddListPanel	addListPanel_;
 	private ToDoListPanel toDoListPanel_;
 
 	String[] columns = {"elements", "content"};
@@ -76,7 +78,7 @@ public class DetailPanel extends JPanel{
 
 	public void prepareComponents(int todo, String ID) {
 		Todo tmp = null;
-		// todoIndex_ = todo;
+		todoIndex_ = todo;
 		getFromRights(todo);
 		
 		try
@@ -107,10 +109,10 @@ public class DetailPanel extends JPanel{
 		title_.setForeground(new Color(0, 0, 100));
 		title_.setHorizontalAlignment(SwingConstants.CENTER);
 		title_.setToolTipText("");
-		title_.setBounds(150, 20, 300, 40);
+		title_.setBounds(150, 5, 300, 30);
 		topPanel.add(title_);
 
-		this.add(topPanel, BorderLayout.NORTH);
+		// this.add(topPanel, BorderLayout.NORTH);
 		
 
 		//画面中央
@@ -147,17 +149,21 @@ public class DetailPanel extends JPanel{
 		table_ = new JTable(data_, columns);
 		table_.setAutoCreateRowSorter(true);
 		table_.setFillsViewportHeight(true);
-		table_.setShowVerticalLines(false);
+		table_.setShowVerticalLines(true);
 		table_.setGridColor(Color.black);
-		table_.getColumn("elements").setPreferredWidth(80);
-		table_.getColumn("content").setPreferredWidth(420);
+		table_.getColumn("elements").setPreferredWidth(100);
+		table_.getColumn("content").setPreferredWidth(500);
 		table_.setRowHeight(30);
-		middlePanel.add(table_.getTableHeader(), BorderLayout.NORTH);
+		table_.getTableHeader().setBounds(0, 40, 600, 30);
+		table_.getTableHeader().setBackground(new Color(103, 181, 183));
+		table_.getTableHeader().setForeground(Color.white);
+		topPanel.add(table_.getTableHeader());
+		table_.setBounds(60, 10, 500, 400);
 		middlePanel.add(table_);
-
 		JScrollPane scrollPane = new JScrollPane(middlePanel);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setPreferredSize(new Dimension(600, 280));
+		scrollPane.setPreferredSize(new Dimension(600, 300));
+		this.add(topPanel, BorderLayout.NORTH);
 		this.add(scrollPane, BorderLayout.CENTER);
 
 		// String sentence = "";
@@ -176,25 +182,51 @@ public class DetailPanel extends JPanel{
 		
 		
 		//画面下部
+		JPanel bottomPanel_ = new JPanel();
+		bottomPanel_.setLayout(null);
+		bottomPanel_.setPreferredSize(new Dimension(100, 40));
 		cancelButton_ = new JButton("Back");
 		cancelButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		cancelButton_.setBorderPainted(true);
 		cancelButton_.setBackground(new Color(0, 0, 0));
-		cancelButton_.setBounds(250, 330, 100, 30);
-		this.add(cancelButton_, BorderLayout.SOUTH);
+		cancelButton_.setBounds(250, 5, 100, 30);
+		bottomPanel_.add(cancelButton_);
+
+		editButton_ = new JButton("edit");
+		editButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		editButton_.setBorderPainted(true);
+		editButton_.setForeground(Color.black);
+		editButton_.setBounds(350, 5, 100, 30);
+		bottomPanel_.add(editButton_);
+		this.add(bottomPanel_, BorderLayout.SOUTH);
 		
 		
 		myButtonListener_ = new MyButtonListener();
 		cancelButton_.addActionListener(myButtonListener_);
+		editButton_.addActionListener(myButtonListener_);
 	}
 	
 	private class MyButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent event) {
-			if (event.getSource() == cancelButton_) {
-				toDoListPanel_ = new ToDoListPanel();
-				toDoListPanel_.prepareComponents(member_.getID());
-				Main.mainWindow_.add(toDoListPanel_, "toDoListPanel");
-				Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.TO_DO_LIST, toDoListPanel_);
+			try
+			{
+				if (event.getSource() == cancelButton_) {
+					toDoListPanel_ = new ToDoListPanel();
+					toDoListPanel_.prepareComponents(member_.getID());
+					Main.mainWindow_.add(toDoListPanel_, "toDoListPanel");
+					Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.TO_DO_LIST, toDoListPanel_);
+				}
+				if (event.getSource() == editButton_) {
+					member_.writeToDB();
+					addListPanel_ = new AddListPanel();
+					addListPanel_.prepareComponents(todoIndex_, member_.getID());
+					Main.mainWindow_.add(addListPanel_, "addListPanel");
+					Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.ADD_LIST, addListPanel_);
+				}
+			}
+			catch (ClassNotFoundException e)
+			{
+				System.out.println(e);
 			}
 		}
 	}

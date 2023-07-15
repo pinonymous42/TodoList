@@ -24,7 +24,6 @@ public class ToDoListPanel extends JPanel{
 	private JButton		archiveButton_;
 	private	JButton		goToArchiveButton_;
 	private JButton		exitButton_;
-	private JButton		editButton_;
 	private	JButton		detailButton_;
 
 	private AddListPanel	addListPanel_;
@@ -60,7 +59,7 @@ public class ToDoListPanel extends JPanel{
 		title.setBounds(150, 20, 300, 40);
 		topPanel.add(title);
 
-		err = new JLabel("choose one list to edit");
+		err = new JLabel("choose only one list");
 		err.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		err.setForeground(Color.red);
 		err.setHorizontalAlignment(SwingConstants.CENTER);
@@ -130,6 +129,8 @@ public class ToDoListPanel extends JPanel{
 		table_.getColumn("priority").setPreferredWidth(100);
 		table_.setRowHeight(30);
 		table_.getTableHeader().setBounds(62, 70, 500, 30);
+		table_.getTableHeader().setBackground(new Color(103, 181, 183));
+		table_.getTableHeader().setForeground(Color.white);
 		topPanel.add(table_.getTableHeader());
 		table_.setBounds(60, 10, 500, 30*count);
 		middlePanel.add(table_);
@@ -164,19 +165,12 @@ public class ToDoListPanel extends JPanel{
 		addButton_.setForeground(Color.black);
 		addButton_.setBounds(300, 10, 100, 30);
 		bottomPanel.add(addButton_);
-		
-		editButton_ = new JButton("edit");
-		editButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		editButton_.setBorderPainted(true);
-		editButton_.setForeground(Color.black);
-		editButton_.setBounds(400, 10, 100, 30);
-		bottomPanel.add(editButton_);
 
 		detailButton_ = new JButton("detail");
 		detailButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		detailButton_.setBorderPainted(true);
 		detailButton_.setForeground(Color.black);
-		detailButton_.setBounds(500, 10, 100, 30);
+		detailButton_.setBounds(400, 10, 100, 30);
 		bottomPanel.add(detailButton_);
 		
 		this.add(bottomPanel, BorderLayout.SOUTH);
@@ -188,7 +182,6 @@ public class ToDoListPanel extends JPanel{
 		archiveButton_.addActionListener(myButtonListener_);
 		addButton_.addActionListener(myButtonListener_);
 		goToArchiveButton_.addActionListener(myButtonListener_);
-		editButton_.addActionListener(myButtonListener_);
 		detailButton_.addActionListener(myButtonListener_);
 	}
 	
@@ -248,29 +241,6 @@ public class ToDoListPanel extends JPanel{
 				archiveListPanel_.prepareComponents(member_.getID());
 				Main.mainWindow_.add(archiveListPanel_, "archiveListPanel");
 				Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.ARCHIVE_LIST, archiveListPanel_);
-			}
-			if (event.getSource() == editButton_) {
-				int	id = 0;
-				editCount_ = 0;
-				for (int i = 0; i < TodoSize_; i++) {
-					if (box_[i].isSelected()) {
-						id = Integer.valueOf(box_[i].getText());
-						editCount_++;
-						// System.out.println(box_[i].getText() + " is edit");
-					}
-				}
-				// System.out.println(editCount_);
-				if (editCount_ != 1) {
-					err.setVisible(true);
-				}
-				else {
-					err.setVisible(false);
-					member_.writeToDB();
-					addListPanel_ = new AddListPanel();
-					addListPanel_.prepareComponents(id, member_.getID());
-					Main.mainWindow_.add(addListPanel_, "addListPanel");
-					Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.ADD_LIST, addListPanel_);
-				}
 			}
 			if (event.getSource() == detailButton_){
 				int	id = 0;

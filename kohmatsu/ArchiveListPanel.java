@@ -113,6 +113,8 @@ public class ArchiveListPanel extends JPanel{
 		table_.getColumn("priority").setPreferredWidth(100);
 		table_.setRowHeight(30);
 		table_.getTableHeader().setBounds(62, 70, 500, 30);
+		table_.getTableHeader().setBackground(new Color(103, 181, 183));
+		table_.getTableHeader().setForeground(Color.white);
 		topPanel.add(table_.getTableHeader());
 		table_.setBounds(60, 10, 500, 30*count);
 		middlePanel.add(table_);
