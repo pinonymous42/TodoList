@@ -1,9 +1,10 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
+import java.util.Date;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -270,12 +271,21 @@ public class AddListPanel extends JPanel{
 		// this.add(deadline_);
 
 		//deadline
-		model = new SpinnerDateModel();
-		spinner = new JSpinner(model);
-		JSpinner.DateEditor editor = new JSpinner.DateEditor(spinner, "yyy/MM/dd HH:mm:ss");
-		spinner.setEditor(editor);
-		spinner.setBounds(200, 170, 200, 20);
-		this.add(spinner);
+		try{
+			String strDate_ = tmp.getDeadline();
+			SimpleDateFormat dateFormat_ = new SimpleDateFormat("yyy/MM/dd HH:mm:ss");
+			Date date_ = dateFormat_.parse(strDate_);
+			Calendar calendar_ = Calendar.getInstance();
+			calendar_.setTime(date_);
+			model = new SpinnerDateModel(date_, null, null, Calendar.SECOND);
+			spinner = new JSpinner(model);
+			JSpinner.DateEditor editor = new JSpinner.DateEditor(spinner, "yyy/MM/dd HH:mm:ss");
+			spinner.setEditor(editor);
+			spinner.setBounds(200, 170, 200, 20);
+			this.add(spinner);
+		} catch(ParseException e) {
+			System.out.println(e);
+		}
 		
 		priorityBox_ = new JComboBox<>(priorityList_);
 		priorityBox_.setSelectedItem(tmp.getPriority());

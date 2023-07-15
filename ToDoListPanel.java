@@ -217,7 +217,6 @@ public class ToDoListPanel extends JPanel{
 				Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.TO_DO_LIST, toDoListPanel_);
 			}
 			if (event.getSource() == archiveButton_) {
-				System.out.println(TodoSize_);
 				for (int i = 0; i < TodoSize_; i++) {
 					if (box_[i].isSelected()) {
 						int	id = Integer.valueOf(box_[i].getText());
