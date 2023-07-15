@@ -121,7 +121,7 @@ public class ToDoListPanel extends JPanel{
 			if (member_.getTodo().get(i).getArchive() == 0)
 			{
 				box_[count] = new JCheckBox(String.valueOf(member_.getTodo().get(i).getIndex()));
-				box_[count].setBounds(20, 10+30*count, 400, 30);
+				box_[count].setBounds(20, 10+30*count, 600, 30);
 				middlePanel.add(box_[count]);
 				box_[count].setForeground(new Color(238, 238, 238));
 				data_[count][0] = member_.getTodo().get(i).getTitle();
