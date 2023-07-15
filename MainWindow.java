@@ -40,6 +40,8 @@ public class MainWindow extends JFrame {
 		loginPanel_.prepareComponents();
 		createAccountPanel_.prepareComponents();
 		forgotPasswordPanel_.prepareComponents();
+		//
+		// System.out.println("prepare");
 		Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.LOGIN, loginPanel_);
 	}
 	

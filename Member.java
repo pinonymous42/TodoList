@@ -1,10 +1,5 @@
-
-
 import java.util.*;
 import java.sql.*;
-import java.time.LocalDateTime;
-import java.text.SimpleDateFormat;
-
 
 public class Member {
     private ArrayList<Todo> todo_;
@@ -13,8 +8,8 @@ public class Member {
     private String ID_;
     private String email_;
     private String password_;
-    private int todoCount_ = 0;/*size of todolist*/
-    private int addCount_ = 0;/*count the number of new adding to todolist*/
+    private int todoCount_ = 0;
+    private int addCount_ = 0;
     private ArrayList<Integer> removeList_ = new ArrayList<Integer>();
     private ArrayList<Integer> editList_ = new ArrayList<Integer>();
     private int maxIndex_ = 0;
@@ -42,6 +37,7 @@ public class Member {
             rs = statement.executeQuery("SELECT t.id, t.title, t.contents, t.created, t.modified, t.deadline, t.priority, t.createdby, t.editedby, t.archive FROM Todo t, Rights r WHERE r.todo=t.id and r.member=" + rs.getString(1));
             while (rs.next())
                 setTodo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getInt(10));
+            rs.close();
             rs = statement.executeQuery("SELECT * FROM Todo");
             while (rs.next())
             {
@@ -52,7 +48,7 @@ public class Member {
         } catch(SQLException e) {
             System.err.println(e.getMessage());
         } finally {
-			try { rs.close(); } catch (Exception e) { /* Ignored */ }
+			// try { rs.close(); } catch (Exception e) { /* Ignored */ }
 			try { connection.close(); } catch (Exception e) { /* Ignored */ }
 			try { statement.close(); } catch (Exception e) { /* Ignored */ }
 		}

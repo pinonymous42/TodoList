@@ -5,18 +5,15 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.*;
 import java.sql.*;
-import java.util.ArrayList;
 
 public class LoginPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JLabel		loginLabel_;
 	private JLabel		userIDLabel_;
-	private JLabel		emailLabel_;
 	private JLabel		passwordLabel_;
 	private JLabel		loginErrLabel_;
 	
 	private JTextField	userNameField_;
-	private JTextField	emailField_;
 	private JPasswordField	passwordField_;
 	
 	private JButton		signinButton_;
@@ -35,7 +32,8 @@ public class LoginPanel extends JPanel {
 	}
 	
 	public void prepareComponents() {
-		
+		//
+		// System.out.println("Login");
 		userIDLabel_ = new JLabel("userID");
 		userIDLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		userIDLabel_.setBounds(200, 150, 100, 10);
@@ -109,7 +107,8 @@ public class LoginPanel extends JPanel {
 		createAccountButton_.addActionListener(myButtonListener_);
 		forgotPasswordButton_.addActionListener(myButtonListener_);
 		exitButton_.addActionListener(myButtonListener_);
-		
+		//
+		// System.out.println("back");
 	}
 
 	public String userCheck(String username, String password) throws ClassNotFoundException

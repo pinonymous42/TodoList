@@ -1,8 +1,6 @@
 import javax.swing.*;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -33,8 +31,6 @@ public class ArchiveListPanel extends JPanel{
 	String[] columns = {"title", "deadline", "priority"};
 	private JCheckBox	box_[];
 	
-	
-	/*Construct*/
 	ArchiveListPanel(){
 		this.setLayout(new BorderLayout());
 		this.setBackground(new Color(238, 238, 238));
@@ -52,7 +48,6 @@ public class ArchiveListPanel extends JPanel{
 			System.out.println(e);
 		}
 
-		//画面上部
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(null);
 		topPanel.setPreferredSize(new Dimension(600, 105));
@@ -86,10 +81,7 @@ public class ArchiveListPanel extends JPanel{
 		goToTodolist_.setBorderPainted(false);
 		goToTodolist_.setBounds(422, 30, 200, 30);
 		topPanel.add(goToTodolist_);
-		// this.add(topPanel, BorderLayout.NORTH);
 
-		
-		/*画面中央　リストを表示する部分　ここを変更*/
 		JPanel middlePanel = new JPanel();
 		if (TodoSize_ <= 8)
 			middlePanel.setPreferredSize(new Dimension(400, 240));
@@ -134,7 +126,6 @@ public class ArchiveListPanel extends JPanel{
 		this.add(topPanel, BorderLayout.NORTH);
 		this.add(scrollPane, BorderLayout.CENTER);
 		
-		/*画面下部（ボタン）*/
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(null);
 		bottomPanel.setPreferredSize(new Dimension(100, 50));

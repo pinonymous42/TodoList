@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Color;
@@ -12,18 +11,9 @@ import java.util.HashMap;
 public class DetailPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 
-	private int TodoSize_;/*TodoList size*/
+	private int TodoSize_;
 
 	private JLabel		title_;
-	// private JLabel		nameLabel_;
-	// private JLabel		contentLabel_;
-	// private JLabel		createdLabel_;
-	// private JLabel		modifiedLabel_;
-	// private JLabel		deadlineLabel_;
-	// private JLabel		priorityLabel_;
-	// private JLabel		createdByLabel_;
-	// private JLabel		editByLabel_;
-	// private JLabel		shareLabel_;
 
 	private int			todoIndex_;
 
@@ -40,7 +30,6 @@ public class DetailPanel extends JPanel{
 	String[] columns = {"elements", "content"};
 	private	JTable		table_;
 
-	// private int memberCount_ = 0;
 	private ArrayList<String> sharedList_ = new ArrayList<String>();
 	private HashMap<String, String> dictFromIndex = new HashMap<String, String>();
 	
@@ -96,10 +85,7 @@ public class DetailPanel extends JPanel{
 		{
 			System.out.println(e);
 		}
-		//
-		// tmp.print();
 
-		//画面上部
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(null);
 		topPanel.setPreferredSize(new Dimension(600, 70));
@@ -112,12 +98,8 @@ public class DetailPanel extends JPanel{
 		title_.setBounds(150, 5, 300, 30);
 		topPanel.add(title_);
 
-		// this.add(topPanel, BorderLayout.NORTH);
-		
-
-		//画面中央
 		JPanel middlePanel = new JPanel();
-		if (TodoSize_ >= 0) //shareする人数によって縦の長さが変わる
+		if (TodoSize_ >= 0)
 			middlePanel.setPreferredSize(new Dimension(400, 400));
 		else
 			middlePanel.setPreferredSize(new Dimension(400, 400+30*TodoSize_));
@@ -166,22 +148,6 @@ public class DetailPanel extends JPanel{
 		this.add(topPanel, BorderLayout.NORTH);
 		this.add(scrollPane, BorderLayout.CENTER);
 
-		// String sentence = "";
-		// for (int i = 0; i < sharedList_.size() - 1; i++)
-		// 	sentence += (dictFromIndex.get(sharedList_.get(i)) + ", ");
-		// sentence += dictFromIndex.get(sharedList_.get(sharedList_.size() - 1));
-		// shareLabel_ = new JLabel(sentence);
-		// shareLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		// shareLabel_.setBounds(50, 340, 500, 20);
-		// middlePanel.add(shareLabel_);
-
-		// JScrollPane scrollPane = new JScrollPane(middlePanel);
-		// scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		// scrollPane.setPreferredSize(new Dimension(600, 280));
-		// this.add(scrollPane, BorderLayout.CENTER);
-		
-		
-		//画面下部
 		JPanel bottomPanel_ = new JPanel();
 		bottomPanel_.setLayout(null);
 		bottomPanel_.setPreferredSize(new Dimension(100, 40));
@@ -199,7 +165,6 @@ public class DetailPanel extends JPanel{
 		editButton_.setBounds(300, 5, 100, 30);
 		bottomPanel_.add(editButton_);
 		this.add(bottomPanel_, BorderLayout.SOUTH);
-		
 		
 		myButtonListener_ = new MyButtonListener();
 		cancelButton_.addActionListener(myButtonListener_);

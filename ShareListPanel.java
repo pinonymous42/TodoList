@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Color;
@@ -10,18 +9,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ShareListPanel extends JPanel{
-	// private int TodoSize_;/*TodoList size*/
 
 	private JLabel		title_;
-	private	JLabel		err_;
-
 	private JButton		cancelButton_;
 	private JButton		addButton_;
 
 	private JCheckBox	box_[];
 
 	private int			todoIndex_;
-	// private int			editCount_;
 	
 	private Member member_;
 
@@ -96,7 +91,6 @@ public class ShareListPanel extends JPanel{
 	}
 
 	public void prepareComponents(int todo, String ID) {
-		Todo tmp = null;
 		todoIndex_ = todo;
 		getFromRights(todo);
 		try
@@ -109,7 +103,6 @@ public class ShareListPanel extends JPanel{
 			System.out.println(e);
 		}
 
-		//画面上部
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(null);
 		topPanel.setPreferredSize(new Dimension(600, 70));
@@ -124,7 +117,6 @@ public class ShareListPanel extends JPanel{
 
 		this.add(topPanel, BorderLayout.NORTH);
 
-		//画面中央
 		JPanel middlePanel = new JPanel();
 		if (sharedList_.size() <= 8)
 			middlePanel.setPreferredSize(new Dimension(400, 240));
@@ -147,9 +139,6 @@ public class ShareListPanel extends JPanel{
 		scrollPane.setPreferredSize(new Dimension(600, 280));
 		this.add(scrollPane, BorderLayout.CENTER);
 
-
-
-		//画面下部
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(null);
 		bottomPanel.setPreferredSize(new Dimension(100, 50));

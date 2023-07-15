@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.sql.*;
 
@@ -75,7 +74,6 @@ public class CreateAccountPanel extends JPanel{
 		errLabel_.setBounds(200, 270, 100, 10);
 		errLabel_.setVisible(false);
 		this.add(errLabel_);
-		
 
 		usernameField_ = new JTextField();
 		usernameField_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));

@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.util.Date;
 import java.awt.Color;
 import java.awt.Font;
@@ -21,11 +20,6 @@ public class AddListPanel extends JPanel{
 	
 	private JTextField	name_;
 	private JTextField	content_;
-	// private JTextField	deadline_;
-	private JTextField	share_;
-	// 
-	// private int			priority_ = 0;
-	// private	String		list_;
 
 	SpinnerDateModel	model;
 	JSpinner 			spinner;
@@ -95,8 +89,6 @@ public class AddListPanel extends JPanel{
 		shareLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		shareLabel_.setBounds(205, 240, 100, 10);
 		this.add(shareLabel_);
-		
-		
 
 		name_ = new JTextField();
 		name_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
@@ -111,29 +103,6 @@ public class AddListPanel extends JPanel{
 		content_.setHorizontalAlignment(SwingConstants.LEFT);
 		content_.setColumns(10);
 		this.add(content_);
-		
-		// deadline_ = new JTextField();
-		// deadline_.setText("2022/9/12");
-		// deadline_.setForeground(Color.LIGHT_GRAY);
-		// deadline_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		// deadline_.setBounds(200, 170, 200, 20);
-		// deadline_.setHorizontalAlignment(SwingConstants.LEFT);
-		// deadline_.setColumns(10);
-		// deadline_.addFocusListener(new FocusListener() {
-		// 	@Override
-		// 	public void focusGained(FocusEvent e){
-		// 		deadline_.setText("");
-		// 		deadline_.setForeground(Color.black);
-		//     }
-		//     @Override
-		//     public void focusLost(FocusEvent e){
-		//         if (deadline_.getText().length() == 0){
-		//         	deadline_.setText("2022/9/12");
-		//         	deadline_.setForeground(Color.LIGHT_GRAY);
-		//         }
-		//     }
-		// });
-		// this.add(deadline_);
 
 		model = new SpinnerDateModel();
 		spinner = new JSpinner(model);
@@ -158,8 +127,6 @@ public class AddListPanel extends JPanel{
 		shareGroup_.add(notShareButon_);
 		shareGroup_.add(shareButton_);
 		
-		
-		
 		cancelButton_ = new JButton("Cancel");
 		cancelButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		cancelButton_.setBorderPainted(true);
@@ -183,7 +150,6 @@ public class AddListPanel extends JPanel{
 		{
 			System.out.println(e);
 		}
-		
 		
 		myButtonListener_ = new MyButtonListener();
 		cancelButton_.addActionListener(myButtonListener_);
@@ -262,15 +228,7 @@ public class AddListPanel extends JPanel{
 		content_.setHorizontalAlignment(SwingConstants.LEFT);
 		content_.setColumns(10);
 		this.add(content_);
-		
-		// deadline_ = new JTextField(tmp.getDeadline());
-		// deadline_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		// deadline_.setBounds(200, 170, 200, 20);
-		// deadline_.setHorizontalAlignment(SwingConstants.LEFT);
-		// deadline_.setColumns(10);
-		// this.add(deadline_);
 
-		//deadline
 		try{
 			String strDate_ = tmp.getDeadline();
 			SimpleDateFormat dateFormat_ = new SimpleDateFormat("yyy/MM/dd HH:mm:ss");
@@ -318,8 +276,6 @@ public class AddListPanel extends JPanel{
 		editButton_.setBounds(300, 330, 100, 30);
 		this.add(editButton_);
 
-		
-		
 		myButtonListener_ = new MyButtonListener();
 		cancelButton_.addActionListener(myButtonListener_);
 		editButton_.addActionListener(myButtonListener_);
@@ -350,8 +306,6 @@ public class AddListPanel extends JPanel{
 					Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.TO_DO_LIST, toDoListPanel_);
 				}
 				if (event.getSource() == addButton_) {
-					int	id = 0;
-					
 					if (name_.getText().equals("") == true) {
 						err_.setVisible(true);
 					}
@@ -362,10 +316,9 @@ public class AddListPanel extends JPanel{
 						index = member_.getMaxIndex() + 1;
 						title = name_.getText();
 						contents = content_.getText();
-						created = sdf.format(cl.getTime());/*後で現在時刻を代入*/
+						created = sdf.format(cl.getTime());
 						modified = "not modified";
 						deadline = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(model.getDate());
-						// deadline = deadline_.getText();
 						priority = (String)priorityBox_.getSelectedItem();
 						createdBy = member_.getName();
 						editedBy = "not edited";
@@ -392,8 +345,6 @@ public class AddListPanel extends JPanel{
 				}
 				if (event.getSource() == editButton_)
 				{
-					int	id = 0;
-					
 					if (name_.getText().equals("") == true) {
 						err_.setVisible(true);
 					}
@@ -407,7 +358,6 @@ public class AddListPanel extends JPanel{
 							{
 								member_.getTodo().get(i).setTitle(name_.getText());
 								member_.getTodo().get(i).setContents(content_.getText());
-								// member_.getTodo().get(i).setDeadline(deadline_.getText());
 								member_.getTodo().get(i).setDeadline(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(model.getDate()));
 								member_.getTodo().get(i).setPriority((String)priorityBox_.getSelectedItem());
 								member_.getTodo().get(i).setModified(sdf.format(cl.getTime()));
@@ -424,7 +374,6 @@ public class AddListPanel extends JPanel{
 						}
 						else
 						{
-							// member_.printTodo();
 							member_.writeToDB();
 							toDoListPanel_ = new ToDoListPanel();
 							toDoListPanel_.prepareComponents(member_.getID());

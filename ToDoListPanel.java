@@ -5,13 +5,12 @@ import java.awt.Font;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.border.LineBorder;
 
 public class ToDoListPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 
-	private int TodoSize_;/*TodoList size*/
-	private	int	editCount_ = 0;//編集は一個ずつしかできない、何個リストが選択されているか確認用
+	private int TodoSize_;
+	private	int	editCount_ = 0;
 
 	private JLabel	title;
 	private	JLabel	err;
@@ -54,7 +53,6 @@ public class ToDoListPanel extends JPanel{
 			System.out.println(e);
 		}
 
-		/*画面上部*/
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(null);
 		topPanel.setPreferredSize(new Dimension(600, 110));
@@ -97,15 +95,12 @@ public class ToDoListPanel extends JPanel{
 		goToArchiveButton_.setBounds(422, 30, 200, 30);
 		topPanel.add(goToArchiveButton_);
 
-
 		addButton_ = new JButton("+");
 		addButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		addButton_.setForeground(new Color(103, 181, 183));
 		addButton_.setBounds(562, 70, 25, 25);
 		topPanel.add(addButton_);
 
-
-		/*画面中央　リストを表示する部分*/
 		JPanel middlePanel = new JPanel();
 		if (TodoSize_ <= 8)
 			middlePanel.setPreferredSize(new Dimension(400, 240));
@@ -116,7 +111,6 @@ public class ToDoListPanel extends JPanel{
 		Object[][] data_ = new Object[member_.getTodo().size()][3];
 		box_ = new JCheckBox[TodoSize_];
 		int count = 0;
-		// System.out.println(member_.getTodoCount());
 		for (int i = 0; i < member_.getTodo().size(); i++) {
 			if (member_.getTodo().get(i).getArchive() == 0)
 			{
@@ -151,7 +145,6 @@ public class ToDoListPanel extends JPanel{
 		this.add(topPanel, BorderLayout.NORTH);
 		this.add(scrollPane, BorderLayout.CENTER);
 
-		/*画面下部（ボタン）*/
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(null);
 		bottomPanel.setPreferredSize(new Dimension(100, 50));
@@ -170,8 +163,6 @@ public class ToDoListPanel extends JPanel{
 		archiveButton_.setBounds(250, 10, 100, 30);
 		bottomPanel.add(archiveButton_);
 		
-
-
 		detailButton_ = new JButton("detail");
 		detailButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		detailButton_.setBorderPainted(true);
@@ -180,7 +171,6 @@ public class ToDoListPanel extends JPanel{
 		bottomPanel.add(detailButton_);
 		
 		this.add(bottomPanel, BorderLayout.SOUTH);
-		
 		
 		myButtonListener_ = new MyButtonListener();
 		exitButton_.addActionListener(myButtonListener_);
@@ -254,10 +244,8 @@ public class ToDoListPanel extends JPanel{
 					if (box_[i].isSelected()) {
 						id = Integer.valueOf(box_[i].getText());
 						editCount_++;
-						// System.out.println(box_[i].getText() + " is edit");
 					}
 				}
-				// System.out.println(editCount_);
 				if (editCount_ != 1) {
 					err.setVisible(true);
 				}
