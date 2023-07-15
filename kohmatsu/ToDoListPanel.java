@@ -1,14 +1,11 @@
-
-
 import javax.swing.*;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.border.LineBorder;
 
 public class ToDoListPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
@@ -18,6 +15,7 @@ public class ToDoListPanel extends JPanel{
 
 	private JLabel	title;
 	private	JLabel	err;
+	private JLabel	user_;
 
 	private JButton		addButton_;
 	private JButton		removeButton_;
@@ -45,6 +43,16 @@ public class ToDoListPanel extends JPanel{
 		this.setBackground(new Color(238, 238, 238));
 	}
 	public void prepareComponents(String ID) {
+		try
+		{
+			member_ = new Member();
+			member_.readFromDB(ID);
+			TodoSize_ = member_.getNotArchiveCount();
+		}
+		catch (ClassNotFoundException e)
+		{
+			System.out.println(e);
+		}
 
 		/*画面上部*/
 		JPanel topPanel = new JPanel();
@@ -66,6 +74,14 @@ public class ToDoListPanel extends JPanel{
 		err.setBounds(150, 50, 300, 20);
 		err.setVisible(false);
 		topPanel.add(err);
+
+		user_ = new JLabel(member_.getName());
+		user_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		user_.setForeground(new Color(103, 181, 183));
+		user_.setHorizontalAlignment(SwingConstants.CENTER);
+		user_.setToolTipText("");
+		user_.setBounds(500, 10, 100, 30);
+		topPanel.add(user_);
 		
 		exitButton_ = new JButton("Logout");
 		exitButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
@@ -78,21 +94,16 @@ public class ToDoListPanel extends JPanel{
 		goToArchiveButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		goToArchiveButton_.setForeground(Color.red);
 		goToArchiveButton_.setBorderPainted(false);
-		goToArchiveButton_.setBounds(400, 10, 200, 30);
+		goToArchiveButton_.setBounds(422, 30, 200, 30);
 		topPanel.add(goToArchiveButton_);
 
-		// this.add(topPanel, BorderLayout.NORTH);
 
-		try
-		{
-			member_ = new Member();
-			member_.readFromDB(ID);
-			TodoSize_ = member_.getNotArchiveCount();
-		}
-		catch (ClassNotFoundException e)
-		{
-			System.out.println(e);
-		}
+		addButton_ = new JButton("+");
+		addButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		addButton_.setForeground(new Color(103, 181, 183));
+		addButton_.setBounds(562, 70, 25, 25);
+		topPanel.add(addButton_);
+
 
 		/*画面中央　リストを表示する部分*/
 		JPanel middlePanel = new JPanel();
@@ -149,28 +160,23 @@ public class ToDoListPanel extends JPanel{
 		removeButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		removeButton_.setBorderPainted(true);
 		removeButton_.setForeground(Color.black);
-		removeButton_.setBounds(100, 10, 100, 30);
+		removeButton_.setBounds(150, 10, 100, 30);
 		bottomPanel.add(removeButton_);
 		
 		archiveButton_ = new JButton("archive");
 		archiveButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		archiveButton_.setBorderPainted(true);
 		archiveButton_.setForeground(Color.black);
-		archiveButton_.setBounds(200, 10, 100, 30);
+		archiveButton_.setBounds(250, 10, 100, 30);
 		bottomPanel.add(archiveButton_);
 		
-		addButton_ = new JButton("add");
-		addButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		addButton_.setBorderPainted(true);
-		addButton_.setForeground(Color.black);
-		addButton_.setBounds(300, 10, 100, 30);
-		bottomPanel.add(addButton_);
+
 
 		detailButton_ = new JButton("detail");
 		detailButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		detailButton_.setBorderPainted(true);
 		detailButton_.setForeground(Color.black);
-		detailButton_.setBounds(400, 10, 100, 30);
+		detailButton_.setBounds(350, 10, 100, 30);
 		bottomPanel.add(detailButton_);
 		
 		this.add(bottomPanel, BorderLayout.SOUTH);

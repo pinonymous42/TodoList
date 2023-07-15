@@ -13,7 +13,8 @@ public class ArchiveListPanel extends JPanel{
 
 	int		TodoSize_;
 	
-	JLabel	title_;
+	JLabel		title_;
+	JLabel		user_;
 
 	JButton		removeButton_;
 	JButton		archiveButton_;
@@ -40,6 +41,17 @@ public class ArchiveListPanel extends JPanel{
 	}
 	
 	public void prepareComponents(String ID) {
+		try
+		{
+			member_ = new Member();
+			member_.readFromDB(ID);
+			TodoSize_ = member_.getArchiveCount();
+		}
+		catch (ClassNotFoundException e)
+		{
+			System.out.println(e);
+		}
+
 		//画面上部
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(null);
@@ -52,6 +64,14 @@ public class ArchiveListPanel extends JPanel{
 		title_.setToolTipText("");
 		title_.setBounds(150, 20, 300, 40);
 		topPanel.add(title_);
+
+		user_ = new JLabel(member_.getName());
+		user_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		user_.setForeground(new Color(103, 181, 183));
+		user_.setHorizontalAlignment(SwingConstants.CENTER);
+		user_.setToolTipText("");
+		user_.setBounds(500, 10, 100, 30);
+		topPanel.add(user_);
 		
 		exitButton_ = new JButton("Exit");
 		exitButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
@@ -64,20 +84,10 @@ public class ArchiveListPanel extends JPanel{
 		goToTodolist_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		goToTodolist_.setForeground(Color.red);
 		goToTodolist_.setBorderPainted(false);
-		goToTodolist_.setBounds(400, 10, 200, 30);
+		goToTodolist_.setBounds(422, 30, 200, 30);
 		topPanel.add(goToTodolist_);
 		// this.add(topPanel, BorderLayout.NORTH);
 
-		try
-		{
-			member_ = new Member();
-			member_.readFromDB(ID);
-			TodoSize_ = member_.getArchiveCount();
-		}
-		catch (ClassNotFoundException e)
-		{
-			System.out.println(e);
-		}
 		
 		/*画面中央　リストを表示する部分　ここを変更*/
 		JPanel middlePanel = new JPanel();
