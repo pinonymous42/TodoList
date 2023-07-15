@@ -18,7 +18,6 @@ public class LoginPanel extends JPanel {
 	
 	private JButton		signinButton_;
 	private JButton		createAccountButton_;
-	private JButton		forgotPasswordButton_;
 	private JButton		exitButton_;
 	
 	private MyButtonListener	myButtonListener_;
@@ -32,8 +31,6 @@ public class LoginPanel extends JPanel {
 	}
 	
 	public void prepareComponents() {
-		//
-		// System.out.println("Login");
 		userIDLabel_ = new JLabel("userID");
 		userIDLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		userIDLabel_.setBounds(200, 150, 100, 10);
@@ -88,13 +85,6 @@ public class LoginPanel extends JPanel {
 		createAccountButton_.setBounds(220, 290, 160, 30);
 		this.add(createAccountButton_);
 		
-		forgotPasswordButton_ = new JButton("Forgot password?");
-		forgotPasswordButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		forgotPasswordButton_.setForeground(UIManager.getColor("Button.disabledText"));
-		forgotPasswordButton_.setBorderPainted(false);
-		forgotPasswordButton_.setBounds(220, 320, 160, 30);
-		this.add(forgotPasswordButton_);
-		
 		exitButton_ = new JButton("Exit");
 		exitButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		exitButton_.setForeground(UIManager.getColor("Button.disabledText"));
@@ -105,10 +95,7 @@ public class LoginPanel extends JPanel {
 		myButtonListener_ = new MyButtonListener();
 		signinButton_.addActionListener(myButtonListener_);
 		createAccountButton_.addActionListener(myButtonListener_);
-		forgotPasswordButton_.addActionListener(myButtonListener_);
 		exitButton_.addActionListener(myButtonListener_);
-		//
-		// System.out.println("back");
 	}
 
 	public String userCheck(String username, String password) throws ClassNotFoundException
@@ -166,9 +153,6 @@ public class LoginPanel extends JPanel {
 					createAccountPanel_.prepareComponents();
 					Main.mainWindow_.add(createAccountPanel_, "createAccountPanel");
 					Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.CREATE_ACCOUNT, createAccountPanel_);
-				}
-				if (event.getSource() == forgotPasswordButton_) {
-					Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.FORGOT_PASSWORD, null);
 				}
 				if (event.getSource() == exitButton_) {
 					System.exit(0);

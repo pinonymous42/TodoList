@@ -48,7 +48,6 @@ public class Member {
         } catch(SQLException e) {
             System.err.println(e.getMessage());
         } finally {
-			// try { rs.close(); } catch (Exception e) { /* Ignored */ }
 			try { connection.close(); } catch (Exception e) { /* Ignored */ }
 			try { statement.close(); } catch (Exception e) { /* Ignored */ }
 		}

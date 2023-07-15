@@ -136,7 +136,11 @@ public class CreateAccountPanel extends JPanel{
             Statement statement = connection.createStatement();
             rs = statement.executeQuery("SELECT * FROM Member");
             while (rs.next())
+			{
+				if (rs.getString(2).equals(name) == true && rs.getString(4).equals(email) == true && rs.getString(5).equals(password) == true)
+					return (null);
                 num++;
+			}
 			Calendar cl = Calendar.getInstance();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
 			ID = sdf.format(cl.getTime()).substring(2, 4) + Integer.valueOf(num).toString();
@@ -171,11 +175,16 @@ public class CreateAccountPanel extends JPanel{
 					else
 					{
 						ID = createNewAccount(username, email, password);
-						toDoListPanel_ = new ToDoListPanel();
-						toDoListPanel_.prepareComponents(ID);
-						errLabel_.setVisible(false);
-						Main.mainWindow_.add(toDoListPanel_, "toDoListPanel");
-						Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.TO_DO_LIST, toDoListPanel_);
+						if (ID == null)
+							errLabel_.setVisible(true);
+						else
+						{
+							toDoListPanel_ = new ToDoListPanel();
+							toDoListPanel_.prepareComponents(ID);
+							errLabel_.setVisible(false);
+							Main.mainWindow_.add(toDoListPanel_, "toDoListPanel");
+							Main.mainWindow_.setFrontScreenAndFocus(ScreenMode.TO_DO_LIST, toDoListPanel_);
+						}
 					}
 				}
 				if (event.getSource() == exitButton_) {
