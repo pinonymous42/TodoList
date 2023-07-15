@@ -20,11 +20,15 @@ public class AddListPanel extends JPanel{
 	
 	private JTextField	name_;
 	private JTextField	content_;
-	private JTextField	deadline_;
+	// private JTextField	deadline_;
 	private JTextField	share_;
+	// 
+	// private int			priority_ = 0;
+	// private	String		list_;
+
+	SpinnerDateModel	model;
+	JSpinner 			spinner;
 	
-	private int			priority_ = 0;
-	private	String		list_;
 	private int			todoIndex_;
 	private	String[]	priorityList_ = {"1", "2", "3", "4", "5"};
 	
@@ -107,28 +111,35 @@ public class AddListPanel extends JPanel{
 		content_.setColumns(10);
 		this.add(content_);
 		
-		deadline_ = new JTextField();
-		deadline_.setText("2022/9/12");
-		deadline_.setForeground(Color.LIGHT_GRAY);
-		deadline_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		deadline_.setBounds(200, 170, 200, 20);
-		deadline_.setHorizontalAlignment(SwingConstants.LEFT);
-		deadline_.setColumns(10);
-		deadline_.addFocusListener(new FocusListener() {
-			@Override
-			public void focusGained(FocusEvent e){
-				deadline_.setText("");
-				deadline_.setForeground(Color.black);
-		    }
-		    @Override
-		    public void focusLost(FocusEvent e){
-		        if (deadline_.getText().length() == 0){
-		        	deadline_.setText("2022/9/12");
-		        	deadline_.setForeground(Color.LIGHT_GRAY);
-		        }
-		    }
-		});
-		this.add(deadline_);
+		// deadline_ = new JTextField();
+		// deadline_.setText("2022/9/12");
+		// deadline_.setForeground(Color.LIGHT_GRAY);
+		// deadline_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		// deadline_.setBounds(200, 170, 200, 20);
+		// deadline_.setHorizontalAlignment(SwingConstants.LEFT);
+		// deadline_.setColumns(10);
+		// deadline_.addFocusListener(new FocusListener() {
+		// 	@Override
+		// 	public void focusGained(FocusEvent e){
+		// 		deadline_.setText("");
+		// 		deadline_.setForeground(Color.black);
+		//     }
+		//     @Override
+		//     public void focusLost(FocusEvent e){
+		//         if (deadline_.getText().length() == 0){
+		//         	deadline_.setText("2022/9/12");
+		//         	deadline_.setForeground(Color.LIGHT_GRAY);
+		//         }
+		//     }
+		// });
+		// this.add(deadline_);
+
+		model = new SpinnerDateModel();
+		spinner = new JSpinner(model);
+		JSpinner.DateEditor editor = new JSpinner.DateEditor(spinner, "yyy/MM/dd HH:mm:ss");
+		spinner.setEditor(editor);
+		spinner.setBounds(200, 170, 200, 20);
+		this.add(spinner);
 		
 		priorityBox_ = new JComboBox<>(priorityList_);
 		priorityBox_.setBounds(200, 210, 200, 20);
@@ -251,12 +262,20 @@ public class AddListPanel extends JPanel{
 		content_.setColumns(10);
 		this.add(content_);
 		
-		deadline_ = new JTextField(tmp.getDeadline());
-		deadline_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		deadline_.setBounds(200, 170, 200, 20);
-		deadline_.setHorizontalAlignment(SwingConstants.LEFT);
-		deadline_.setColumns(10);
-		this.add(deadline_);
+		// deadline_ = new JTextField(tmp.getDeadline());
+		// deadline_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		// deadline_.setBounds(200, 170, 200, 20);
+		// deadline_.setHorizontalAlignment(SwingConstants.LEFT);
+		// deadline_.setColumns(10);
+		// this.add(deadline_);
+
+		//deadline
+		model = new SpinnerDateModel();
+		spinner = new JSpinner(model);
+		JSpinner.DateEditor editor = new JSpinner.DateEditor(spinner, "yyy/MM/dd HH:mm:ss");
+		spinner.setEditor(editor);
+		spinner.setBounds(200, 170, 200, 20);
+		this.add(spinner);
 		
 		priorityBox_ = new JComboBox<>(priorityList_);
 		priorityBox_.setSelectedItem(tmp.getPriority());
@@ -335,7 +354,8 @@ public class AddListPanel extends JPanel{
 						contents = content_.getText();
 						created = sdf.format(cl.getTime());/*後で現在時刻を代入*/
 						modified = "not modified";
-						deadline = deadline_.getText();
+						deadline = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(model.getDate());
+						// deadline = deadline_.getText();
 						priority = (String)priorityBox_.getSelectedItem();
 						createdBy = member_.getName();
 						editedBy = "not edited";
@@ -377,7 +397,8 @@ public class AddListPanel extends JPanel{
 							{
 								member_.getTodo().get(i).setTitle(name_.getText());
 								member_.getTodo().get(i).setContents(content_.getText());
-								member_.getTodo().get(i).setDeadline(deadline_.getText());
+								// member_.getTodo().get(i).setDeadline(deadline_.getText());
+								member_.getTodo().get(i).setDeadline(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(model.getDate()));
 								member_.getTodo().get(i).setPriority((String)priorityBox_.getSelectedItem());
 								member_.getTodo().get(i).setModified(sdf.format(cl.getTime()));
 								member_.getTodo().get(i).setEditedBy(member_.getName());
