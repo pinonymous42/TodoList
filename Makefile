@@ -11,4 +11,4 @@ all: $(SRCS)
 fclean: 
 	$(RM) *.class
 
-.PHONY: all
+.PHONY: all fclean
