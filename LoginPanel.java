@@ -50,10 +50,10 @@ public class LoginPanel extends JPanel {
 		this.add(loginLabel_);
 		
 		loginErrLabel_ = new JLabel("Login failed");
-		loginErrLabel_.setFont(new Font("Dialog", Font.PLAIN, 10));
+		loginErrLabel_.setFont(new Font("Dialog", Font.PLAIN, 13));
 		loginErrLabel_.setForeground(new Color(255, 0, 0));
 		loginErrLabel_.setToolTipText("");
-		loginErrLabel_.setBounds(200, 220, 100, 10);
+		loginErrLabel_.setBounds(200, 220, 100, 15);
 		loginErrLabel_.setVisible(false);
 		this.add(loginErrLabel_);
 
@@ -72,10 +72,10 @@ public class LoginPanel extends JPanel {
 		this.add(passwordField_);
 		
 		signinButton_ = new JButton("Sign in");
-		signinButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		signinButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		signinButton_.setBorderPainted(false);
 		signinButton_.setBackground(new Color(0, 255, 0));
-		signinButton_.setBounds(250, 240, 100, 30);
+		signinButton_.setBounds(220, 245, 160, 30);
 		this.add(signinButton_);
 		
 		createAccountButton_ = new JButton("Create an account");
