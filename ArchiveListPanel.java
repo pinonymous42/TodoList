@@ -54,7 +54,7 @@ public class ArchiveListPanel extends JPanel{
 		
 		title_ = new JLabel("Archive List");
 		title_.setFont(new Font("Dialog", Font.BOLD, 30));
-		title_.setForeground(new Color(0, 0, 0));
+		title_.setForeground(new Color(255, 140, 0));
 		title_.setHorizontalAlignment(SwingConstants.CENTER);
 		title_.setToolTipText("");
 		title_.setBounds(150, 20, 300, 40);

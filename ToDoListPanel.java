@@ -59,7 +59,7 @@ public class ToDoListPanel extends JPanel{
 		
 		title = new JLabel("ToDolist");
 		title.setFont(new Font("Dialog", Font.BOLD, 30));
-		title.setForeground(new Color(0, 0, 0));
+		title.setForeground(new Color(46, 139, 87));
 		title.setHorizontalAlignment(SwingConstants.CENTER);
 		title.setToolTipText("");
 		title.setBounds(150, 20, 300, 40);
