@@ -79,17 +79,17 @@ public class LoginPanel extends JPanel {
 		this.add(signinButton_);
 		
 		createAccountButton_ = new JButton("Create an account");
-		createAccountButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		createAccountButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		createAccountButton_.setForeground(new Color(0, 255, 0));
 		createAccountButton_.setBorderPainted(false);
-		createAccountButton_.setBounds(220, 290, 160, 30);
+		createAccountButton_.setBounds(200, 280, 200, 30);
 		this.add(createAccountButton_);
 		
 		exitButton_ = new JButton("Exit");
 		exitButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		exitButton_.setForeground(UIManager.getColor("Button.disabledText"));
-		exitButton_.setBorderPainted(false);
-		exitButton_.setBounds(10, 10, 100, 30);
+		exitButton_.setBorderPainted(true);
+		exitButton_.setBounds(30, 30, 80, 30);
 		this.add(exitButton_);
 		
 		myButtonListener_ = new MyButtonListener();

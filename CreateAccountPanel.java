@@ -69,9 +69,9 @@ public class CreateAccountPanel extends JPanel{
 		this.add(confirmLabel_);
 
 		errLabel_ = new JLabel("failed");
-		errLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
+		errLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		errLabel_.setForeground(Color.red);
-		errLabel_.setBounds(200, 270, 100, 10);
+		errLabel_.setBounds(200, 265, 100, 10);
 		errLabel_.setVisible(false);
 		this.add(errLabel_);
 
@@ -103,18 +103,18 @@ public class CreateAccountPanel extends JPanel{
 		confirmField_.setBounds(200, 240, 200, 20);
 		this.add(confirmField_);
 		
-		createAccountButton_ = new JButton("Create an account");
-		createAccountButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		createAccountButton_ = new JButton("<html><u>Create an account</u><html>");
+		createAccountButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		createAccountButton_.setForeground(new Color(0, 255, 0));
 		createAccountButton_.setBorderPainted(false);
-		createAccountButton_.setBounds(220, 300, 160, 30);
+		createAccountButton_.setBounds(220, 280, 160, 30);
 		this.add(createAccountButton_);
 		
-		exitButton_ = new JButton("Exit");
-		exitButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		exitButton_ = new JButton("Cancel");
+		exitButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		exitButton_.setForeground(UIManager.getColor("Button.disabledText"));
-		exitButton_.setBorderPainted(false);
-		exitButton_.setBounds(10, 10, 100, 30);
+		exitButton_.setBorderPainted(true);
+		exitButton_.setBounds(250, 320, 100, 30);
 		this.add(exitButton_);
 		
 		myButtonListener_ = new MyButtonListener();

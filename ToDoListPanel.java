@@ -84,8 +84,8 @@ public class ToDoListPanel extends JPanel{
 		exitButton_ = new JButton("Logout");
 		exitButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		exitButton_.setForeground(UIManager.getColor("Button.disabledText"));
-		exitButton_.setBorderPainted(false);
-		exitButton_.setBounds(10, 10, 100, 30);
+		exitButton_.setBorderPainted(true);
+		exitButton_.setBounds(10, 10, 90, 30);
 		topPanel.add(exitButton_);
 
 		goToArchiveButton_ = new JButton("<html><u>go to Archive List</u><html>");
