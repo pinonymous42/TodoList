@@ -38,7 +38,7 @@ public class ToDoListPanel extends JPanel{
 	private JCheckBox	box_[];
 
 	ToDoListPanel(){
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.setLayout(new BorderLayout());
 		this.setBackground(new Color(238, 238, 238));
 	}
 	public void prepareComponents(String ID) {
@@ -55,7 +55,7 @@ public class ToDoListPanel extends JPanel{
 
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(null);
-		topPanel.setPreferredSize(new Dimension(600, 110));
+		topPanel.setPreferredSize(new Dimension(600, 100));
 		
 		title = new JLabel("ToDolist");
 		title.setFont(new Font("Dialog", Font.BOLD, 30));
@@ -98,7 +98,7 @@ public class ToDoListPanel extends JPanel{
 		addButton_ = new JButton("+");
 		addButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		addButton_.setForeground(new Color(103, 181, 183));
-		addButton_.setBounds(562, 70, 25, 25);
+		addButton_.setBounds(562, 70, 30, 30);
 		topPanel.add(addButton_);
 
 		JPanel middlePanel = new JPanel();

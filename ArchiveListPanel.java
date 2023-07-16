@@ -50,7 +50,7 @@ public class ArchiveListPanel extends JPanel{
 
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(null);
-		topPanel.setPreferredSize(new Dimension(600, 105));
+		topPanel.setPreferredSize(new Dimension(600, 100));
 		
 		title_ = new JLabel("Archive List");
 		title_.setFont(new Font("Dialog", Font.BOLD, 30));
@@ -68,7 +68,7 @@ public class ArchiveListPanel extends JPanel{
 		user_.setBounds(500, 10, 100, 30);
 		topPanel.add(user_);
 		
-		exitButton_ = new JButton("Exit");
+		exitButton_ = new JButton("Logout");
 		exitButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		exitButton_.setForeground(UIManager.getColor("Button.disabledText"));
 		exitButton_.setBorderPainted(false);
@@ -96,7 +96,7 @@ public class ArchiveListPanel extends JPanel{
 			if (member_.getTodo().get(i).getArchive() == 1)
 			{
 				box_[count] = new JCheckBox(String.valueOf(member_.getTodo().get(i).getIndex()));
-				box_[count].setBounds(20, 10+30*count, 400, 30);
+				box_[count].setBounds(20, 10+30*count, 600, 30);
 				middlePanel.add(box_[count]);
 				box_[count].setForeground(new Color(238, 238, 238));
 				data_[count][0] = member_.getTodo().get(i).getTitle();

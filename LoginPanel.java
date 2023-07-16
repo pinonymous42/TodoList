@@ -31,7 +31,7 @@ public class LoginPanel extends JPanel {
 	}
 	
 	public void prepareComponents() {
-		userIDLabel_ = new JLabel("userID");
+		userIDLabel_ = new JLabel("userName");
 		userIDLabel_.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		userIDLabel_.setBounds(200, 150, 100, 10);
 		this.add(userIDLabel_);
