@@ -107,7 +107,7 @@ public class CreateAccountPanel extends JPanel{
 		createAccountButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		createAccountButton_.setForeground(new Color(0, 255, 0));
 		createAccountButton_.setBorderPainted(false);
-		createAccountButton_.setBounds(220, 280, 160, 30);
+		createAccountButton_.setBounds(200, 280, 200, 30);
 		this.add(createAccountButton_);
 		
 		exitButton_ = new JButton("Cancel");
