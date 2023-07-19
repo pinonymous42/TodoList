@@ -103,9 +103,9 @@ public class ToDoListPanel extends JPanel{
 
 		JPanel middlePanel = new JPanel();
 		if (TodoSize_ <= 8)
-			middlePanel.setPreferredSize(new Dimension(400, 240));
+			middlePanel.setPreferredSize(new Dimension(400, 260));
 		else
-			middlePanel.setPreferredSize(new Dimension(400, 10+30*TodoSize_));
+			middlePanel.setPreferredSize(new Dimension(400, 20+30*TodoSize_));
 		middlePanel.setLayout(null);
 
 		Object[][] data_ = new Object[member_.getTodo().size()][3];
