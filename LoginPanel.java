@@ -89,7 +89,7 @@ public class LoginPanel extends JPanel {
 		
 		exitButton_ = new JButton("Exit");
 		exitButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		exitButton_.setContentAreaFilled(false);
+		// exitButton_.setContentAreaFilled(false);
 		exitButton_.setMargin(new Insets(0, 0, 0, 0));
 		exitButton_.setBorderPainted(true);
 		exitButton_.setForeground(UIManager.getColor("Button.disabledText"));
