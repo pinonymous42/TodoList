@@ -130,12 +130,14 @@ public class AddListPanel extends JPanel{
 		cancelButton_ = new JButton("Cancel");
 		cancelButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		cancelButton_.setBorderPainted(true);
+		cancelButton_.setContentAreaFilled(false);
 		cancelButton_.setBackground(new Color(0, 255, 0));
 		cancelButton_.setBounds(200, 330, 100, 30);
 		this.add(cancelButton_);
 		
 		addButton_ = new JButton("Add");
 		addButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		addButton_.setContentAreaFilled(false);
 		addButton_.setForeground(new Color(0, 255, 0));
 		addButton_.setBorderPainted(true);
 		addButton_.setBounds(300, 330, 100, 30);
@@ -265,12 +267,14 @@ public class AddListPanel extends JPanel{
 		cancelButton_ = new JButton("Cancel");
 		cancelButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 		cancelButton_.setBorderPainted(true);
+		cancelButton_.setContentAreaFilled(false);
 		cancelButton_.setBackground(new Color(0, 255, 0));
 		cancelButton_.setBounds(200, 330, 100, 30);
 		this.add(cancelButton_);
 		
 		editButton_ = new JButton("Edit");
 		editButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		editButton_.setContentAreaFilled(false);
 		editButton_.setForeground(new Color(0, 255, 0));
 		editButton_.setBorderPainted(true);
 		editButton_.setBounds(300, 330, 100, 30);

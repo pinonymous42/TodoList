@@ -70,6 +70,7 @@ public class ArchiveListPanel extends JPanel{
 		
 		exitButton_ = new JButton("Logout");
 		exitButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		exitButton_.setContentAreaFilled(false);
 		exitButton_.setForeground(UIManager.getColor("Button.disabledText"));
 		exitButton_.setBorderPainted(true);
 		exitButton_.setBounds(10, 10, 90, 30);
@@ -77,6 +78,7 @@ public class ArchiveListPanel extends JPanel{
 		
 		goToTodolist_ = new JButton("<html><u>go to To Do List</u><html>");
 		goToTodolist_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		goToTodolist_.setContentAreaFilled(false);
 		goToTodolist_.setForeground(Color.red);
 		goToTodolist_.setBorderPainted(false);
 		goToTodolist_.setBounds(422, 30, 200, 30);
@@ -96,6 +98,7 @@ public class ArchiveListPanel extends JPanel{
 			if (member_.getTodo().get(i).getArchive() == 1)
 			{
 				box_[count] = new JCheckBox(String.valueOf(member_.getTodo().get(i).getIndex()));
+				box_[count].setOpaque(false);
 				box_[count].setBounds(20, 10+30*count, 600, 30);
 				middlePanel.add(box_[count]);
 				box_[count].setForeground(new Color(238, 238, 238));
@@ -132,6 +135,7 @@ public class ArchiveListPanel extends JPanel{
 		
 		removeButton_ = new JButton("remove");
 		removeButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		removeButton_.setContentAreaFilled(false);
 		removeButton_.setBorderPainted(true);
 		removeButton_.setForeground(Color.black);
 		removeButton_.setBounds(200, 10, 100, 30);
@@ -139,6 +143,7 @@ public class ArchiveListPanel extends JPanel{
 		
 		archiveButton_ = new JButton("return");
 		archiveButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		archiveButton_.setContentAreaFilled(false);
 		archiveButton_.setBorderPainted(true);
 		archiveButton_.setForeground(Color.black);
 		archiveButton_.setBounds(300, 10, 100, 30);

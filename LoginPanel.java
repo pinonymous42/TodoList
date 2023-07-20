@@ -73,6 +73,7 @@ public class LoginPanel extends JPanel {
 		
 		signinButton_ = new JButton("Sign in");
 		signinButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		signinButton_.setContentAreaFilled(false);
 		signinButton_.setBorderPainted(false);
 		signinButton_.setBackground(new Color(0, 255, 0));
 		signinButton_.setBounds(220, 245, 160, 30);
@@ -80,6 +81,7 @@ public class LoginPanel extends JPanel {
 		
 		createAccountButton_ = new JButton("Create an account");
 		createAccountButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		createAccountButton_.setContentAreaFilled(false);
 		createAccountButton_.setForeground(new Color(0, 255, 0));
 		createAccountButton_.setBorderPainted(false);
 		createAccountButton_.setBounds(200, 280, 200, 30);
@@ -87,6 +89,7 @@ public class LoginPanel extends JPanel {
 		
 		exitButton_ = new JButton("Exit");
 		exitButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		exitButton_.setContentAreaFilled(false);
 		exitButton_.setForeground(UIManager.getColor("Button.disabledText"));
 		exitButton_.setBorderPainted(true);
 		exitButton_.setBounds(30, 30, 80, 30);
