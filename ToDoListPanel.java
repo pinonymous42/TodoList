@@ -158,7 +158,7 @@ public class ToDoListPanel extends JPanel{
 		removeButton_.setContentAreaFilled(false);
 		removeButton_.setBorderPainted(true);
 		removeButton_.setForeground(Color.black);
-		removeButton_.setBounds(150, 10, 100, 30);
+		removeButton_.setBounds(150, 10, 80, 30);
 		bottomPanel.add(removeButton_);
 		
 		archiveButton_ = new JButton("archive");
@@ -166,7 +166,7 @@ public class ToDoListPanel extends JPanel{
 		archiveButton_.setContentAreaFilled(false);
 		archiveButton_.setBorderPainted(true);
 		archiveButton_.setForeground(Color.black);
-		archiveButton_.setBounds(250, 10, 100, 30);
+		archiveButton_.setBounds(250, 10, 80, 30);
 		bottomPanel.add(archiveButton_);
 		
 		detailButton_ = new JButton("detail");
@@ -174,7 +174,7 @@ public class ToDoListPanel extends JPanel{
 		detailButton_.setContentAreaFilled(false);
 		detailButton_.setBorderPainted(true);
 		detailButton_.setForeground(Color.black);
-		detailButton_.setBounds(350, 10, 100, 30);
+		detailButton_.setBounds(350, 10, 80, 30);
 		bottomPanel.add(detailButton_);
 		
 		this.add(bottomPanel, BorderLayout.SOUTH);
