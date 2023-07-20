@@ -1,5 +1,5 @@
 
-
+import java.awt.Insets;
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.Font;
@@ -90,6 +90,7 @@ public class LoginPanel extends JPanel {
 		exitButton_ = new JButton("Exit");
 		exitButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		exitButton_.setContentAreaFilled(false);
+		exitButton_.setMargin(new Insets(0, 0, 0, 0));
 		exitButton_.setForeground(UIManager.getColor("Button.disabledText"));
 		exitButton_.setBorderPainted(true);
 		exitButton_.setBounds(30, 30, 80, 30);
