@@ -98,10 +98,10 @@ public class ToDoListPanel extends JPanel{
 		topPanel.add(goToArchiveButton_);
 
 		addButton_ = new JButton("+");
-		addButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		addButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		addButton_.setContentAreaFilled(false);
 		addButton_.setForeground(new Color(103, 181, 183));
-		addButton_.setBounds(560, 70, 30, 30);
+		addButton_.setBounds(560, 70, 40, 30);
 		topPanel.add(addButton_);
 
 		JPanel middlePanel = new JPanel();

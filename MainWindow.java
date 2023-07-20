@@ -10,7 +10,7 @@ public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private ScreenMode screenMode_;
-	private final int width = 600;
+	private final int width = 620;
 	private final int height = 400;
 	
 	private CardLayout layout_ = new CardLayout();
