@@ -1,6 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
