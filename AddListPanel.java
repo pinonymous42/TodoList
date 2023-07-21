@@ -134,7 +134,6 @@ public class AddListPanel extends JPanel{
 		// cancelButton_.setContentAreaFilled(false);
 		cancelButton_.setMargin(new Insets(0, 0, 0, 0));
 		cancelButton_.setBackground(Color.white);
-		cancelButton_.setBackground(new Color(0, 255, 0));
 		cancelButton_.setBounds(200, 330, 80, 30);
 		this.add(cancelButton_);
 		
@@ -275,7 +274,6 @@ public class AddListPanel extends JPanel{
 		// cancelButton_.setContentAreaFilled(false);
 		cancelButton_.setMargin(new Insets(0, 0, 0, 0));
 		cancelButton_.setBackground(Color.white);
-		cancelButton_.setBackground(new Color(0, 255, 0));
 		cancelButton_.setBounds(200, 330, 80, 30);
 		this.add(cancelButton_);
 		

@@ -108,7 +108,6 @@ public class ToDoListPanel extends JPanel{
 		addButton_.setMargin(new Insets(0, 0, 0, 0));
 		addButton_.setBackground(Color.white);
 		addButton_.setForeground(new Color(103, 181, 183));
-		addButton_.setBorder(new LineBorder(new Color(103, 181, 183)));
 		addButton_.setBounds(560, 70, 40, 30);
 		topPanel.add(addButton_);
 

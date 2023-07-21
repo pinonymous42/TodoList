@@ -105,9 +105,8 @@ public class CreateAccountPanel extends JPanel{
 		
 		createAccountButton_ = new JButton("<html><u>Create an account</u><html>");
 		createAccountButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		// createAccountButton_.setContentAreaFilled(false);
+		createAccountButton_.setContentAreaFilled(false);
 		createAccountButton_.setMargin(new Insets(0, 0, 0, 0));
-		createAccountButton_.setBackground(Color.white);
 		createAccountButton_.setForeground(new Color(0, 255, 0));
 		createAccountButton_.setBorderPainted(false);
 		createAccountButton_.setBounds(200, 280, 200, 30);
