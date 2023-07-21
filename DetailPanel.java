@@ -152,10 +152,10 @@ public class DetailPanel extends JPanel{
 		bottomPanel_.setLayout(null);
 		bottomPanel_.setPreferredSize(new Dimension(100, 40));
 		cancelButton_ = new JButton("Back");
-		cancelButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		cancelButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		cancelButton_.setBorderPainted(true);
 		cancelButton_.setContentAreaFilled(false);
-		cancelButton_.setBounds(200, 5, 100, 30);
+		cancelButton_.setBounds(200, 5, 80, 30);
 		bottomPanel_.add(cancelButton_);
 
 		editButton_ = new JButton("edit");
@@ -163,7 +163,7 @@ public class DetailPanel extends JPanel{
 		editButton_.setBorderPainted(true);
 		editButton_.setContentAreaFilled(false);
 		editButton_.setForeground(Color.black);
-		editButton_.setBounds(300, 5, 100, 30);
+		editButton_.setBounds(300, 5, 80, 30);
 		bottomPanel_.add(editButton_);
 		this.add(bottomPanel_, BorderLayout.SOUTH);
 		

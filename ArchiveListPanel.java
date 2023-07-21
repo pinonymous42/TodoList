@@ -81,7 +81,7 @@ public class ArchiveListPanel extends JPanel{
 		goToTodolist_.setContentAreaFilled(false);
 		goToTodolist_.setForeground(Color.red);
 		goToTodolist_.setBorderPainted(false);
-		goToTodolist_.setBounds(422, 30, 200, 30);
+		goToTodolist_.setBounds(422, 30, 180, 30);
 		topPanel.add(goToTodolist_);
 
 		JPanel middlePanel = new JPanel();
@@ -138,7 +138,7 @@ public class ArchiveListPanel extends JPanel{
 		removeButton_.setContentAreaFilled(false);
 		removeButton_.setBorderPainted(true);
 		removeButton_.setForeground(Color.black);
-		removeButton_.setBounds(200, 10, 100, 30);
+		removeButton_.setBounds(200, 10, 80, 30);
 		bottomPanel.add(removeButton_);
 		
 		archiveButton_ = new JButton("return");
@@ -146,7 +146,7 @@ public class ArchiveListPanel extends JPanel{
 		archiveButton_.setContentAreaFilled(false);
 		archiveButton_.setBorderPainted(true);
 		archiveButton_.setForeground(Color.black);
-		archiveButton_.setBounds(300, 10, 100, 30);
+		archiveButton_.setBounds(300, 10, 80, 30);
 		bottomPanel.add(archiveButton_);
 
 		

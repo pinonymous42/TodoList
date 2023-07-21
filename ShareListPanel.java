@@ -148,7 +148,7 @@ public class ShareListPanel extends JPanel{
 		cancelButton_.setContentAreaFilled(false);
 		cancelButton_.setBorderPainted(true);
 		cancelButton_.setBackground(new Color(0, 255, 0));
-		cancelButton_.setBounds(200, 10, 100, 30);
+		cancelButton_.setBounds(200, 10, 80, 30);
 		bottomPanel.add(cancelButton_);
 		
 		addButton_ = new JButton("Change");
@@ -156,7 +156,7 @@ public class ShareListPanel extends JPanel{
 		addButton_.setContentAreaFilled(false);
 		addButton_.setForeground(new Color(0, 255, 0));
 		addButton_.setBorderPainted(true);
-		addButton_.setBounds(300, 10, 100, 30);
+		addButton_.setBounds(300, 10, 80, 30);
 		bottomPanel.add(addButton_);
 		this.add(bottomPanel, BorderLayout.SOUTH);
 

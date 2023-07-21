@@ -132,7 +132,7 @@ public class AddListPanel extends JPanel{
 		cancelButton_.setBorderPainted(true);
 		cancelButton_.setContentAreaFilled(false);
 		cancelButton_.setBackground(new Color(0, 255, 0));
-		cancelButton_.setBounds(200, 330, 100, 30);
+		cancelButton_.setBounds(200, 330, 80, 30);
 		this.add(cancelButton_);
 		
 		addButton_ = new JButton("Add");
@@ -140,7 +140,7 @@ public class AddListPanel extends JPanel{
 		addButton_.setContentAreaFilled(false);
 		addButton_.setForeground(new Color(0, 255, 0));
 		addButton_.setBorderPainted(true);
-		addButton_.setBounds(300, 330, 100, 30);
+		addButton_.setBounds(300, 330, 80, 30);
 		this.add(addButton_);
 
 		try
@@ -269,7 +269,7 @@ public class AddListPanel extends JPanel{
 		cancelButton_.setBorderPainted(true);
 		cancelButton_.setContentAreaFilled(false);
 		cancelButton_.setBackground(new Color(0, 255, 0));
-		cancelButton_.setBounds(200, 330, 100, 30);
+		cancelButton_.setBounds(200, 330, 80, 30);
 		this.add(cancelButton_);
 		
 		editButton_ = new JButton("Edit");
@@ -277,7 +277,7 @@ public class AddListPanel extends JPanel{
 		editButton_.setContentAreaFilled(false);
 		editButton_.setForeground(new Color(0, 255, 0));
 		editButton_.setBorderPainted(true);
-		editButton_.setBounds(300, 330, 100, 30);
+		editButton_.setBounds(300, 330, 80, 30);
 		this.add(editButton_);
 
 		myButtonListener_ = new MyButtonListener();
