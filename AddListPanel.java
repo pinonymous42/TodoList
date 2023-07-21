@@ -269,7 +269,7 @@ public class AddListPanel extends JPanel{
 		shareGroup_.add(shareButton_);
 		
 		cancelButton_ = new JButton("Cancel");
-		cancelButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		cancelButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		cancelButton_.setBorderPainted(true);
 		// cancelButton_.setContentAreaFilled(false);
 		cancelButton_.setMargin(new Insets(0, 0, 0, 0));
