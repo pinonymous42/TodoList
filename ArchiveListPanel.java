@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Insets;
 import java.awt.Font;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -70,7 +71,9 @@ public class ArchiveListPanel extends JPanel{
 		
 		exitButton_ = new JButton("Logout");
 		exitButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		exitButton_.setContentAreaFilled(false);
+		// exitButton_.setContentAreaFilled(false);
+		exitButton_.setMargin(new Insets(0, 0, 0, 0));
+		exitButton_.setBackground(Color.white);
 		exitButton_.setForeground(UIManager.getColor("Button.disabledText"));
 		exitButton_.setBorderPainted(true);
 		exitButton_.setBounds(10, 10, 90, 30);
@@ -135,7 +138,9 @@ public class ArchiveListPanel extends JPanel{
 		
 		removeButton_ = new JButton("remove");
 		removeButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		removeButton_.setContentAreaFilled(false);
+		// removeButton_.setContentAreaFilled(false);
+		removeButton_.setMargin(new Insets(0, 0, 0, 0));
+		removeButton_.setBackground(Color.white);
 		removeButton_.setBorderPainted(true);
 		removeButton_.setForeground(Color.black);
 		removeButton_.setBounds(200, 10, 80, 30);
@@ -143,7 +148,9 @@ public class ArchiveListPanel extends JPanel{
 		
 		archiveButton_ = new JButton("return");
 		archiveButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		archiveButton_.setContentAreaFilled(false);
+		// archiveButton_.setContentAreaFilled(false);
+		archiveButton_.setMargin(new Insets(0, 0, 0, 0));
+		archiveButton_.setBackground(Color.white);
 		archiveButton_.setBorderPainted(true);
 		archiveButton_.setForeground(Color.black);
 		archiveButton_.setBounds(300, 10, 80, 30);

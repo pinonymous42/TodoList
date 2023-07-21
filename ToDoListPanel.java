@@ -1,8 +1,11 @@
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -83,7 +86,9 @@ public class ToDoListPanel extends JPanel{
 		
 		exitButton_ = new JButton("Logout");
 		exitButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		exitButton_.setContentAreaFilled(false);
+		// exitButton_.setContentAreaFilled(false);
+		exitButton_.setMargin(new Insets(0, 0, 0, 0));
+		exitButton_.setBackground(Color.white);
 		exitButton_.setForeground(UIManager.getColor("Button.disabledText"));
 		exitButton_.setBorderPainted(true);
 		exitButton_.setBounds(10, 10, 90, 30);
@@ -99,8 +104,11 @@ public class ToDoListPanel extends JPanel{
 
 		addButton_ = new JButton("+");
 		addButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
-		addButton_.setContentAreaFilled(false);
+		// addButton_.setContentAreaFilled(false);
+		addButton_.setMargin(new Insets(0, 0, 0, 0));
+		addButton_.setBackground(Color.white);
 		addButton_.setForeground(new Color(103, 181, 183));
+		addButton_.setBorder(new LineBorder(new Color(103, 181, 183)));
 		addButton_.setBounds(560, 70, 40, 30);
 		topPanel.add(addButton_);
 
@@ -155,7 +163,9 @@ public class ToDoListPanel extends JPanel{
 		
 		removeButton_ = new JButton("remove");
 		removeButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		removeButton_.setContentAreaFilled(false);
+		// removeButton_.setContentAreaFilled(false);
+		removeButton_.setMargin(new Insets(0, 0, 0, 0));
+		removeButton_.setBackground(Color.white);
 		removeButton_.setBorderPainted(true);
 		removeButton_.setForeground(Color.black);
 		removeButton_.setBounds(150, 10, 80, 30);
@@ -163,7 +173,9 @@ public class ToDoListPanel extends JPanel{
 		
 		archiveButton_ = new JButton("archive");
 		archiveButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		archiveButton_.setContentAreaFilled(false);
+		// archiveButton_.setContentAreaFilled(false);
+		archiveButton_.setMargin(new Insets(0, 0, 0, 0));
+		archiveButton_.setBackground(Color.white);
 		archiveButton_.setBorderPainted(true);
 		archiveButton_.setForeground(Color.black);
 		archiveButton_.setBounds(250, 10, 80, 30);
@@ -171,7 +183,9 @@ public class ToDoListPanel extends JPanel{
 		
 		detailButton_ = new JButton("detail");
 		detailButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		detailButton_.setContentAreaFilled(false);
+		// detailButton_.setContentAreaFilled(false);
+		detailButton_.setMargin(new Insets(0, 0, 0, 0));
+		detailButton_.setBackground(Color.white);
 		detailButton_.setBorderPainted(true);
 		detailButton_.setForeground(Color.black);
 		detailButton_.setBounds(350, 10, 80, 30);

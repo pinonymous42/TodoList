@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.*;
+import java.awt.Insets;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -154,14 +155,18 @@ public class DetailPanel extends JPanel{
 		cancelButton_ = new JButton("Back");
 		cancelButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		cancelButton_.setBorderPainted(true);
-		cancelButton_.setContentAreaFilled(false);
+		// cancelButton_.setContentAreaFilled(false);
+		cancelButton_.setMargin(new Insets(0, 0, 0, 0));
+		cancelButton_.setBackground(Color.white);
 		cancelButton_.setBounds(200, 5, 80, 30);
 		bottomPanel_.add(cancelButton_);
 
 		editButton_ = new JButton("edit");
 		editButton_.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		editButton_.setBorderPainted(true);
-		editButton_.setContentAreaFilled(false);
+		// editButton_.setContentAreaFilled(false);
+		editButton_.setMargin(new Insets(0, 0, 0, 0));
+		editButton_.setBackground(Color.white);
 		editButton_.setForeground(Color.black);
 		editButton_.setBounds(300, 5, 80, 30);
 		bottomPanel_.add(editButton_);
